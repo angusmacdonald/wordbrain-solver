@@ -1,6 +1,10 @@
 package words;
 
+/**
+ * Position in a 2D grid.
+ */
 public class Position {
+	
 	private int x;
 	private int y;
 
