@@ -72,9 +72,16 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		final WordFinder finder = new WordFinder(dictionary);
 
-		final int len = Integer.parseInt(wordLengthEntry.getText());
+		final String lengths = wordLengthEntry.getText();
+
+		final String[] splitLen = lengths.split(",");
+
 		final Queue<Integer> lens = new LinkedList<>();
-		lens.add(len);
+
+		for (final String len : splitLen) {
+			lens.add(Integer.parseInt(len.trim()));
+		}
+
 		final List<List<String>> wordsFound = finder.findWords(createGrid(), lens);
 
 		printWords(wordsFound);
