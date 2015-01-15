@@ -10,13 +10,16 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.JTextField;
 
 import nyc.angus.wordbrain.finder.WordBrainSolver;
-import nyc.angus.wordbrain.util.DictionaryLoader;
 import nyc.angus.wordbrain.util.Printers;
 
+import com.google.common.base.Joiner;
+import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
@@ -31,20 +34,24 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	 * UI Components
 	 */
 	private final GridEntryPanel gridFrame;
-	private final JTextArea wordLengthEntry;
+	private final JTextField wordLengthEntry;
 	private final Button submitButton;
+	private final JList<String> lstSolutions;
+	private final DefaultListModel<String> listModel;
 
 	/**
 	 * Solver.
 	 */
 	private final WordBrainSolver wordFinder;
 
-	public GridEntryFrame(final int x, final Set<String> dictionary) {
-
+	public GridEntryFrame() {
+		final int x = 4;
+		final Set<String> dictionary = null;
 		// Set up frame:
 		final Container pane = getContentPane();
 		getContentPane().setLayout(
-				new FormLayout(new ColumnSpec[] { ColumnSpec.decode("170px"), }, new RowSpec[] { RowSpec.decode("120px"),
+				new FormLayout(new ColumnSpec[] { ColumnSpec.decode("170px"), FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("max(97dlu;default):grow"), }, new RowSpec[] { RowSpec.decode("120px:grow"),
 						RowSpec.decode("16px"), RowSpec.decode("29px"), }));
 		this.setTitle("WordBrain Solver");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,8 +63,13 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 		this.gridFrame = new GridEntryPanel(x);
 		pane.add(gridFrame, "1, 1, fill, center");
 
+		listModel = new DefaultListModel<>();
+		lstSolutions = new JList<>(listModel);
+
+		getContentPane().add(lstSolutions, "3, 1, 1, 3, fill, fill");
+
 		// Initialize length of word entry:
-		wordLengthEntry = new JTextArea("");
+		wordLengthEntry = new JTextField("");
 		pane.add(wordLengthEntry, "1, 2, fill, center");
 
 		submitButton = new Button("Submit");
@@ -76,19 +88,39 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource().equals(submitButton)) {
-			findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+			listModel.clear();
+			listModel.addElement("Solving...");
+
+			final List<List<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+
+			showSolutions(solutions);
 		}
 	}
 
 	/**
 	 * Find the words in the given grid, provided they are of the specified lengths.
+	 * 
+	 * @return
 	 */
-	private void findWords(final char[][] grid, final String wordLengthString) {
+	private List<List<String>> findWords(final char[][] grid, final String wordLengthString) {
 		final Queue<Integer> wordLengths = getWordLengths(wordLengthString);
 
 		final List<List<String>> wordsFound = wordFinder.findWords(grid, wordLengths);
 
-		Printers.printSolutions(wordsFound);
+		return wordsFound;
+	}
+
+	/**
+	 * Display the solutions in the interface.
+	 */
+	private void showSolutions(final List<List<String>> solutions) {
+		listModel.clear();
+
+		for (final List<String> result : solutions) {
+			listModel.addElement(Joiner.on(", ").join(result));
+		}
+
+		Printers.printSolutions(solutions);
 	}
 
 	/**
@@ -107,7 +139,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	}
 
 	public static void main(final String[] args) throws IOException {
-		final GridEntryFrame gst = new GridEntryFrame(4, DictionaryLoader.loadDictionary("dictionary.txt"));
+		final GridEntryFrame gst = new GridEntryFrame();// 4, DictionaryLoader.loadDictionary("dictionary.txt"));
 		gst.setVisible(true);
 	}
 }

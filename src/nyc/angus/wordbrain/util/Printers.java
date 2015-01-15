@@ -18,7 +18,7 @@ public class Printers {
 
 		if (!wordsFound.isEmpty()) {
 			for (final List<String> result : wordsFound) {
-				Joiner.on(", ").join(result);
+				System.out.println(Joiner.on(", ").join(result));
 			}
 		} else {
 			System.out.println("<none>");
