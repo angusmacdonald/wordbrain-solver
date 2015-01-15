@@ -2,7 +2,6 @@ package words;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.JPanel;
@@ -14,6 +13,7 @@ public class GridEntryPanel extends JPanel {
 	private JTextField[][] characters;
 
 	public GridEntryPanel(int x) {
+		x = 4;
 		this.setLayout(new GridBagLayout());
 
 		characters = new JTextField[x][x];
@@ -27,9 +27,9 @@ public class GridEntryPanel extends JPanel {
 			c.gridwidth = 1;
 			c.gridheight = 1;
 
-			c.weightx = 1.0;
-			c.weighty = 1.0;
-			c.insets = new Insets(5, 5, 5, 5);
+			c.weightx = 2.0;
+			c.weighty = 2.0;
+			c.insets = new Insets(1,1,1,1);
 			c.fill = GridBagConstraints.HORIZONTAL;
 
 			button.setMinimumSize(button.getPreferredSize());

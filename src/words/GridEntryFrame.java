@@ -15,6 +15,9 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class GridEntryFrame extends JFrame  implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -33,33 +36,24 @@ public class GridEntryFrame extends JFrame  implements ActionListener{
 		this.gridFrame = new GridEntryPanel(x);
 		
 		Container pane = getContentPane();
-		pane.setLayout(new GridBagLayout());
+		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("170px"),},
+			new RowSpec[] {
+				RowSpec.decode("120px"),
+				RowSpec.decode("16px"),
+				RowSpec.decode("29px"),}));
 		
-		GridBagConstraints entryConstraint = new GridBagConstraints();
-		entryConstraint.gridy = 0;
-		entryConstraint.gridx = 0;
-		
-		pane.add(gridFrame, entryConstraint);
+		pane.add(gridFrame, "1, 1, fill, center");
 		
 		
 		wordLengthEntry = new JTextArea("");
-	
-		GridBagConstraints lengthConstraint = new GridBagConstraints();
-		lengthConstraint.fill = GridBagConstraints.HORIZONTAL;
-		lengthConstraint.gridy = 1;
-		lengthConstraint.gridx = 0;
-		pane.add(wordLengthEntry, lengthConstraint);
+		pane.add(wordLengthEntry, "1, 2, fill, center");
 		
 		
 		
 		Button submitButton = new Button("Submit");
 		submitButton.addActionListener(this);
-		
-		GridBagConstraints buttonConstraint = new GridBagConstraints();
-		buttonConstraint.fill = GridBagConstraints.HORIZONTAL;
-		buttonConstraint.gridy = 2;
-		buttonConstraint.gridx = 0;
-		pane.add(submitButton, buttonConstraint);
+		pane.add(submitButton, "1, 3, fill, center");
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
