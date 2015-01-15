@@ -1,4 +1,4 @@
-package words;
+package nyc.angus.wordbrain.ui;
 
 import java.awt.Button;
 import java.awt.Container;
@@ -12,6 +12,9 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+
+import nyc.angus.wordbrain.finder.WordFinder;
+import nyc.angus.wordbrain.util.DictionaryLoader;
 
 import com.google.common.base.Joiner;
 import com.jgoodies.forms.layout.ColumnSpec;

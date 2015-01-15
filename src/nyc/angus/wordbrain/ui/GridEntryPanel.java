@@ -1,4 +1,4 @@
-package words;
+package nyc.angus.wordbrain.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

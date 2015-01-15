@@ -1,4 +1,4 @@
-package words;
+package nyc.angus.wordbrain.util;
 
 /**
  * Position in a 2D grid.

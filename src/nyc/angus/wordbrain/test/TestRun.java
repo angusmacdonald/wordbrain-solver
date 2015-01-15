@@ -1,4 +1,4 @@
-package words;
+package nyc.angus.wordbrain.test;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import nyc.angus.wordbrain.finder.WordFinder;
+import nyc.angus.wordbrain.util.DictionaryLoader;
+
 import com.google.common.base.Joiner;
 
-public class Main {
+/**
+ * Runs a basic test example to check that it works correctly.
+ */
+public class TestRun {
 	public static void main(final String[] args) throws IOException {
 		final Set<String> dictionary = DictionaryLoader.loadDictionary("dictionary.txt");
 

@@ -1,4 +1,4 @@
-package words;
+package nyc.angus.wordbrain.finder;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import nyc.angus.wordbrain.util.Grids;
+import nyc.angus.wordbrain.util.Position;
 
 public class WordFinder {
 
