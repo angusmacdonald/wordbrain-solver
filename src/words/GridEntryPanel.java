@@ -12,7 +12,13 @@ public class GridEntryPanel extends JPanel {
 
 	private final JTextField[][] characters;
 
+	/**
+	 * The size of the x by x grid, where this value is x.
+	 */
+	private final int gridSize;
+
 	public GridEntryPanel(final int x) {
+		gridSize = x;
 		this.setLayout(new GridBagLayout());
 
 		characters = new JTextField[x][x];
@@ -39,7 +45,19 @@ public class GridEntryPanel extends JPanel {
 
 	}
 
-	public JTextField[][] getCharacters() {
-		return characters;
+	/**
+	 * Create the character grid from the entries in the UI form.
+	 */
+	public char[][] createGridFromUiForm() {
+		final char[][] grid = new char[gridSize][gridSize];
+
+		for (int y = 0; y < grid.length; y++) {
+			for (int x = 0; x < grid[0].length; x++) {
+				final String text = characters[y][x].getText();
+				final char charAt = text.length() == 0 ? ' ' : text.charAt(0);
+				grid[y][x] = charAt;
+			}
+		}
+		return grid;
 	}
 }

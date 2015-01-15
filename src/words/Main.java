@@ -1,9 +1,6 @@
 package words;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -11,10 +8,7 @@ import java.util.Set;
 
 public class Main {
 	public static void main(final String[] args) throws IOException {
-		System.out.println("Reading dictionary...");
-		final List<String> dictionaryAsList = Files.readAllLines(Paths.get("", "dictionary.txt"));
-		final Set<String> dictionary = new HashSet<>(dictionaryAsList);
-		System.out.println("Finished reading dictionary...");
+		final Set<String> dictionary = DictionaryLoader.loadDictionary("dictionary.txt");
 
 		final WordFinder finder = new WordFinder(dictionary);
 
