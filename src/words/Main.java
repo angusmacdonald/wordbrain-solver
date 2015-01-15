@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 public class Main {
@@ -16,17 +18,23 @@ public class Main {
 		
 		WordFinder finder = new WordFinder(dictionary);
 		
-		List<String> wordsFound = finder.findWords(createGrid(), 8);
+		Queue<Integer> q = new LinkedList<>();
+		q.add(8);
+		List<List<String>> wordsFound = finder.findWords(createGrid(), q);
 		
 		printWords(wordsFound);
 	}
 
-	private static void printWords(List<String> wordsFound) {
+	private static void printWords(List<List<String>> wordsFound) {
 		System.out.println("Words found:");
-		for (String string : wordsFound) {
-			System.out.println(string);
+		for (List<String> result : wordsFound) {
+			for (String word : result) {
+				System.out.print(word + ", ");
+			}
+			System.out.println("");
 		}
 	}
+	
 
 	private static char[][] createGrid() {
 		char[][] grid = new char[4][4];

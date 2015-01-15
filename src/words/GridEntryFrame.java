@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -81,7 +83,9 @@ public class GridEntryFrame extends JFrame  implements ActionListener{
 		WordFinder finder = new WordFinder(dictionary);
 		
 		int len = Integer.parseInt(wordLengthEntry.getText());
-		List<String> wordsFound = finder.findWords(createGrid(), len);
+		Queue<Integer> lens = new LinkedList<>();
+		lens.add(len);
+		List<List<String>> wordsFound = finder.findWords(createGrid(), lens);
 		
 		printWords(wordsFound);
 	}
@@ -99,10 +103,13 @@ public class GridEntryFrame extends JFrame  implements ActionListener{
 		return grid;
 	}
 	
-	private static void printWords(List<String> wordsFound) {
+	private static void printWords(List<List<String>> wordsFound) {
 		System.out.println("Words found:");
-		for (String string : wordsFound) {
-			System.out.println(string);
+		for (List<String> result : wordsFound) {
+			for (String word : result) {
+				System.out.print(word + ", ");
+			}
+			System.out.println("");
 		}
 	}
 	
