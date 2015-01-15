@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import com.google.common.base.Joiner;
+
 public class Main {
 	public static void main(final String[] args) throws IOException {
 		final Set<String> dictionary = DictionaryLoader.loadDictionary("dictionary.txt");
@@ -25,10 +27,7 @@ public class Main {
 	private static void printWords(final List<List<String>> wordsFound) {
 		System.out.println("Words found:");
 		for (final List<String> result : wordsFound) {
-			for (final String word : result) {
-				System.out.print(word + ", ");
-			}
-			System.out.println("");
+			System.out.println(Joiner.on(", ").join(result));
 		}
 	}
 

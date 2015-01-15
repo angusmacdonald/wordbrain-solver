@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import com.google.common.base.Joiner;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
@@ -82,11 +83,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	private static void printWords(final List<List<String>> wordsFound) {
 		System.out.println("Words found:");
 		for (final List<String> result : wordsFound) {
-
-			for (final String word : result) {
-				System.out.print(word + ", ");
-			}
-			System.out.println("");
+			Joiner.on(", ").join(result);
 		}
 	}
 
