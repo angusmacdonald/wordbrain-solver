@@ -13,7 +13,6 @@ import nyc.angus.wordbrain.util.Grids;
 import nyc.angus.wordbrain.util.Position;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
  * Provides potential solutions for WordBrain problems, provided a grid of characters, and the lengths of the words to
@@ -27,6 +26,7 @@ public class WordBrainSolver {
 	private final Set<String> dictionary;
 
 	public WordBrainSolver(final Set<String> dictionary) {
+		Preconditions.checkNotNull(dictionary);
 		this.dictionary = dictionary;
 	}
 
@@ -41,8 +41,8 @@ public class WordBrainSolver {
 	 * @return The list of word combinations that complete the grid. The sub-list contains the words that, used
 	 *         together, complete the grid.
 	 */
-	public List<List<String>> findWords(final char[][] grid, final Queue<Integer> wordLengths) {
-		final List<List<String>> wordsFound = new LinkedList<>();
+	public List<LinkedList<String>> findWords(final char[][] grid, final Queue<Integer> wordLengths) {
+		final List<LinkedList<String>> wordsFound = new LinkedList<>();
 
 		Preconditions.checkNotNull(grid);
 		Preconditions.checkArgument(grid.length > 0 || grid[0].length > 0);
@@ -91,7 +91,7 @@ public class WordBrainSolver {
 	 * @return The list of word combinations that complete the grid. The sub-list contains the words that, used
 	 *         together, complete the grid.
 	 */
-	private List<List<String>> findWord(final char[][] grid, final int xPos, final int yPos, @Nonnull final String currentWord,
+	private List<LinkedList<String>> findWord(final char[][] grid, final int xPos, final int yPos, @Nonnull final String currentWord,
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired) {
 
 		// Check terminating conditions (co-ordinates off grid, grid position already used, or grid position empty):
@@ -100,7 +100,7 @@ public class WordBrainSolver {
 			return Collections.emptyList();
 		}
 
-		final List<List<String>> solutions = new LinkedList<>();
+		final List<LinkedList<String>> solutions = new LinkedList<>();
 
 		final String newWord = currentWord + grid[yPos][xPos];
 
@@ -121,7 +121,7 @@ public class WordBrainSolver {
 	 * remaining characters adjacent to the current character.
 	 */
 	private void findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord,
-			final Queue<Integer> wordLengthsRequired, final List<List<String>> solutions, final String word) {
+			final Queue<Integer> wordLengthsRequired, final List<LinkedList<String>> solutions, final String word) {
 
 		final Set<Position> newPosSeen = new HashSet<>(positionsUsedInWord);
 		newPosSeen.add(new Position(xPos, yPos));
@@ -148,14 +148,15 @@ public class WordBrainSolver {
 	 * as it is not part of a complete solution.
 	 */
 	private void markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord,
-			final Queue<Integer> wordLengthsRequired, final List<List<String>> solutions, final String validWord) {
+			final Queue<Integer> wordLengthsRequired, final List<LinkedList<String>> solutions, final String validWord) {
 		/*
 		 * We've found a potential first word. Move on to second word.
 		 */
 		final Queue<Integer> newWordLengthsRequired = cloneQueue(wordLengthsRequired);
 		newWordLengthsRequired.remove();
 
-		final List<String> resultSet = Lists.newArrayList(validWord);
+		final LinkedList<String> resultSet = new LinkedList<>();
+		resultSet.add(validWord);
 
 		if (newWordLengthsRequired.isEmpty()) {
 			// No more words to find after this.
@@ -168,14 +169,15 @@ public class WordBrainSolver {
 			final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
 
 			// Start searching again in new grid for the next word:
-			final List<List<String>> nextWords = findWords(updatedGrid, newWordLengthsRequired);
+			final List<LinkedList<String>> nextWords = findWords(updatedGrid, newWordLengthsRequired);
 
 			// If more words were found, add the whole result to the solution set:
 			if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
-				// TODO check logic of this. is it posisble to have multiple valid results from nextWords?
-				resultSet.addAll(nextWords.get(0));
+				for (final LinkedList<String> list : nextWords) {
+					list.addFirst(validWord);
+				}
 
-				solutions.add(resultSet);
+				solutions.addAll(nextWords);
 			}
 		}
 	}

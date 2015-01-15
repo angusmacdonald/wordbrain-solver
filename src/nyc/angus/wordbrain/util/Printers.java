@@ -4,6 +4,7 @@
 
 package nyc.angus.wordbrain.util;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
@@ -13,7 +14,7 @@ import com.google.common.base.Joiner;
  */
 public class Printers {
 
-	public static void printSolutions(final List<List<String>> wordsFound) {
+	public static void printSolutions(final List<LinkedList<String>> wordsFound) {
 		System.out.print("Solutions found: ");
 
 		if (!wordsFound.isEmpty()) {

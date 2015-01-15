@@ -5,6 +5,8 @@
 package nyc.angus.wordbrain.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -30,14 +32,16 @@ public class SolverTests {
 	}
 
 	@Test
-	public void fourByfour() {
+	public void manySmallWords() {
 		final char[][] grid = { { 't', 'n', 'l', 'e' }, { 'm', 'b', 'o', 'w' }, { 'a', 'o', 'r', 't' }, { 'j', 'o', 'i', 't' } };
 
 		final Queue<Integer> wordLengths = setUpWordLengths(3, 4, 6, 3);
 
-		final List<List<String>> solutions = solver.findWords(grid, wordLengths);
+		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
 
+		// TODO tin, trowel, boot, jam
 		Printers.printSolutions(solutions);
+		fail("Not completed.");
 	}
 
 	@Test
@@ -46,17 +50,16 @@ public class SolverTests {
 
 		final Queue<Integer> wordLengths = setUpWordLengths(3, 6, 7);
 
-		final List<List<String>> solutions = solver.findWords(grid, wordLengths);
+		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
 
 		Printers.printSolutions(solutions);
 
-		assertEquals(1, solutions.size());
+		assertEquals(2, solutions.size());
 		final List<String> solutionSet = solutions.get(0);
 
-		assertEquals("jam", solutionSet.get(0));
-		assertEquals("cannon", solutionSet.get(1));
-		assertEquals("percent", solutionSet.get(2));
-
+		assertTrue(solutionSet.contains("jam"));
+		assertTrue(solutionSet.contains("cannon"));
+		assertTrue(solutionSet.contains("percent"));
 	}
 
 	private Queue<Integer> setUpWordLengths(final Integer... lengths) {

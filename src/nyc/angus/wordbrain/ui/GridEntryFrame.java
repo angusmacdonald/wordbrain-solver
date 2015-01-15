@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 
 import nyc.angus.wordbrain.finder.WordBrainSolver;
+import nyc.angus.wordbrain.util.DictionaryLoader;
 import nyc.angus.wordbrain.util.Printers;
 
 import com.google.common.base.Joiner;
@@ -44,9 +45,8 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	 */
 	private final WordBrainSolver wordFinder;
 
-	public GridEntryFrame() {
-		final int x = 4;
-		final Set<String> dictionary = null;
+	public GridEntryFrame(final int x, final Set<String> dictionary) {
+
 		// Set up frame:
 		final Container pane = getContentPane();
 		getContentPane().setLayout(
@@ -91,21 +91,27 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 			listModel.clear();
 			listModel.addElement("Solving...");
 
-			final List<List<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+			try {
+				final List<LinkedList<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
 
-			showSolutions(solutions);
+				showSolutions(solutions);
+			} catch (final NumberFormatException e1) {
+				listModel.clear();
+				listModel.addElement("Input format incorrect...");
+			}
 		}
 	}
 
 	/**
 	 * Find the words in the given grid, provided they are of the specified lengths.
 	 * 
-	 * @return
+	 * @throws NumberFormatException
+	 *         If the word lengths provided are not numeric.
 	 */
-	private List<List<String>> findWords(final char[][] grid, final String wordLengthString) {
+	private List<LinkedList<String>> findWords(final char[][] grid, final String wordLengthString) throws NumberFormatException {
 		final Queue<Integer> wordLengths = getWordLengths(wordLengthString);
 
-		final List<List<String>> wordsFound = wordFinder.findWords(grid, wordLengths);
+		final List<LinkedList<String>> wordsFound = wordFinder.findWords(grid, wordLengths);
 
 		return wordsFound;
 	}
@@ -113,11 +119,15 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	/**
 	 * Display the solutions in the interface.
 	 */
-	private void showSolutions(final List<List<String>> solutions) {
+	private void showSolutions(final List<LinkedList<String>> solutions) {
 		listModel.clear();
 
-		for (final List<String> result : solutions) {
-			listModel.addElement(Joiner.on(", ").join(result));
+		if (!solutions.isEmpty()) {
+			for (final List<String> result : solutions) {
+				listModel.addElement(Joiner.on(", ").join(result));
+			}
+		} else {
+			listModel.addElement("<none found>");
 		}
 
 		Printers.printSolutions(solutions);
@@ -125,8 +135,11 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 
 	/**
 	 * Get the specified word lengths to be found in the grid.
+	 * 
+	 * @throws NumberFormatException
+	 *         If the word lengths provided are not numeric.
 	 */
-	private Queue<Integer> getWordLengths(final String lengthsAsString) {
+	private Queue<Integer> getWordLengths(final String lengthsAsString) throws NumberFormatException {
 		final String[] splitLen = lengthsAsString.split(",");
 
 		final Queue<Integer> lens = new LinkedList<>();
@@ -139,7 +152,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	}
 
 	public static void main(final String[] args) throws IOException {
-		final GridEntryFrame gst = new GridEntryFrame();// 4, DictionaryLoader.loadDictionary("dictionary.txt"));
+		final GridEntryFrame gst = new GridEntryFrame(4, DictionaryLoader.loadDictionary("dictionary.txt"));
 		gst.setVisible(true);
 	}
 }
