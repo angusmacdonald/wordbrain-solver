@@ -19,10 +19,13 @@ public class Main {
 		WordFinder finder = new WordFinder(dictionary);
 		
 		Queue<Integer> q = new LinkedList<>();
-		q.add(8);
+		q.add(3);
+		q.add(6);
+		q.add(7);
 		List<List<String>> wordsFound = finder.findWords(createGrid(), q);
 		
 		printWords(wordsFound);
+		
 	}
 
 	private static void printWords(List<List<String>> wordsFound) {
@@ -36,25 +39,28 @@ public class Main {
 	}
 	
 
+	
+
 	private static char[][] createGrid() {
 		char[][] grid = new char[4][4];
 		// y, x
-		grid[0][0] = 'p';
-		grid[0][1] = 'e';
-		grid[0][2] = 'o';
-		grid[0][3] = 'r';
-		grid[1][0] = 'o';
-		grid[1][1] = 'g';
-		grid[1][2] = 'b';
-		grid[1][3] = 't';
-		grid[2][0] = 't';
-		grid[2][1] = 'l';
-		grid[2][2] = 'e';
-		grid[2][3] = 'o';
-		grid[3][0] = 'u';
+		grid[0][0] = 'n';
+		grid[0][1] = 'o';
+		grid[0][2] = 'n';
+		grid[0][3] = 'c';
+		grid[1][0] = 'p';
+		grid[1][1] = 'n';
+		grid[1][2] = 't';
+		grid[1][3] = 'm';
+		grid[2][0] = 'e';
+		grid[2][1] = 'c';
+		grid[2][2] = 'a';
+		grid[2][3] = 'a';
+		grid[3][0] = 'r';
 		grid[3][1] = 'e';
-		grid[3][2] = 'v';
-		grid[3][3] = 'n';
+		grid[3][2] = 'n';
+		grid[3][3] = 'j';
+	
 		return grid;
 	}
 

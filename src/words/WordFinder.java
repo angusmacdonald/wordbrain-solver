@@ -1,14 +1,11 @@
 package words;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class WordFinder {
 
@@ -28,13 +25,14 @@ public class WordFinder {
 	 *            Length of the word we are looking for.
 	 * @return All valid words in the length.
 	 */
-	public List<List<String>> findWords(char[][] grid, Queue<Integer> lengthOfWord) {
+	public List<List<String>> findWords(char[][] grid,
+			Queue<Integer> lengthOfWord) {
 		List<List<String>> wordsFound = new LinkedList<>();
-		
-		if (lengthOfWord == null || lengthOfWord.size() == 0){
+
+		if (lengthOfWord == null || lengthOfWord.size() == 0) {
 			return wordsFound;
 		}
-		
+
 		/*
 		 * Start looking for words from each position in the grid.
 		 */
@@ -74,83 +72,77 @@ public class WordFinder {
 	 * @return List of valid words found.
 	 */
 	private List<List<String>> findWord(String currentWord, int x, int y,
-			Set<Position> positionsSeen, Queue<Integer> lengthOfWord, char[][] grid) {
+			Set<Position> positionsSeen, Queue<Integer> lengthOfWord,
+			char[][] grid) {
 
+		/*
+		 * Terminating conditions:
+		 */
 		if (x < 0 || y < 0 || y >= grid.length || x >= grid[0].length
-				|| positionsSeen.contains(new Position(x, y)) || grid[y][x] == ' ') {
+				|| positionsSeen.contains(new Position(x, y))
+				|| grid[y][x] == ' ') {
 			return Collections.emptyList();
 		}
 
+		if (lengthOfWord.isEmpty()
+				|| currentWord.length() > lengthOfWord.peek()) {
+			return Collections.emptyList();
+		}
+
+		/*
+		 * Begin check with larger word:
+		 */
 		List<List<String>> wordsFound = new LinkedList<>();
 
 		String newWord = currentWord + grid[y][x];
 
-		if (newWord.length() == lengthOfWord.peek() && dictionary.contains(newWord)) {
+		if (newWord.length() == lengthOfWord.peek()
+				&& dictionary.contains(newWord)) {
+			// We've found a potential first word. Move on to second word.
+			Queue<Integer> newLengthOfWord = new LinkedList<>(lengthOfWord); 
+			newLengthOfWord.remove();
+
 			List<String> resultSet = new LinkedList<>();
 			resultSet.add(newWord);
-			lengthOfWord.remove();
-			List<List<String>> words = findWords(createNewGrid(grid, positionsSeen), lengthOfWord);
-			
-			for (List<String> list : words) {
-				list.add(newWord);
-			}
-			
-			wordsFound.addAll(words);
-		}
 
-		Set<Position> newPosSeen = new HashSet<>(positionsSeen);
-		newPosSeen.add(new Position(x, y));
-		wordsFound
-				.addAll(findWord(newWord, x - 1, y, newPosSeen, lengthOfWord, grid));
-		wordsFound
-				.addAll(findWord(newWord, x, y - 1, newPosSeen, lengthOfWord, grid));
-		wordsFound.addAll(findWord(newWord, x - 1, y - 1, newPosSeen, lengthOfWord,
-				grid));
-		wordsFound
-				.addAll(findWord(newWord, x + 1, y, newPosSeen, lengthOfWord, grid));
-		wordsFound
-				.addAll(findWord(newWord, x, y + 1, newPosSeen, lengthOfWord, grid));
-		wordsFound.addAll(findWord(newWord, x + 1, y + 1, newPosSeen, lengthOfWord,
-				grid));
-		wordsFound.addAll(findWord(newWord, x + 1, y - 1, newPosSeen, lengthOfWord,
-				grid));
-		wordsFound.addAll(findWord(newWord, x - 1, y + 1, newPosSeen, lengthOfWord,
-				grid));
+			if (newLengthOfWord.isEmpty()) {
+				wordsFound.add(resultSet);
+			} else {
+				positionsSeen.add(new Position(x, y));
+				char[][] updatedGrid = Grids.createNewGrid(grid, positionsSeen);
+				List<List<String>> nextWords = findWords(updatedGrid,
+						newLengthOfWord);
+
+				if (nextWords.size() > 0 && nextWords.get(0).size() > 0) {
+					resultSet.addAll(nextWords.get(0));
+
+					wordsFound.add(resultSet);
+				}
+			}
+		} else if (newWord.length() < lengthOfWord.peek()) {
+
+			Set<Position> newPosSeen = new HashSet<>(positionsSeen);
+			newPosSeen.add(new Position(x, y));
+			wordsFound.addAll(findWord(newWord, x - 1, y, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x, y - 1, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x - 1, y - 1, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x, y + 1, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y + 1, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y - 1, newPosSeen,
+					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x - 1, y + 1, newPosSeen,
+					lengthOfWord, grid));
+
+		}
 
 		return wordsFound;
-	}
-	
-	private char[][] createNewGrid(char[][] grid, Set<Position> positionsSeen) {
-		
-		char[][] newGrid = cloneArray(grid);
-		
-		
-		for (Position position : positionsSeen) {
-			newGrid[position.y][position.x] = ' ';
-		}
-		
-		
-		for (int y = 0; y < grid.length; y++) {
-			for (int x = 0; x < grid[0].length; x++) {
-
-				if (grid[y][x] == ' '){
-					char prev = ' ';
-					for (int i = 0; y <= i; i++){
-						char temp = newGrid[i][x];
-						newGrid[i][x] = prev;
-						prev = temp;
-					}
-				}
-
-			}
-		}
-		return newGrid;
-	}
-
-	private char[][] cloneArray(char[][] original){
-		   return Arrays.stream(original)
-		             .map((char[] row) -> row.clone())
-		             .toArray((int length) -> new char[length][]);
 	}
 
 }
