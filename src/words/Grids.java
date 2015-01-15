@@ -5,38 +5,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Grids {
-	
+
 	public static void main(String[] args) {
 		char[][] grid = createGrid();
 		printGrid(grid);
-		
+
 		Set<Position> positionsSeen = new HashSet<>();
-		
+
 		positionsSeen.add(new Position(0, 2));
 		positionsSeen.add(new Position(0, 1));
-		
+
 		char[][] newGrid = createNewGrid(grid, positionsSeen);
-		
+
 		System.out.println("");
 		printGrid(newGrid);
 	}
-	
+
 	public static char[][] createNewGrid(char[][] grid, Set<Position> positionsSeen) {
-		
+
 		char[][] newGrid = cloneArray(grid);
-		
-		
+
 		for (Position position : positionsSeen) {
 			newGrid[position.y][position.x] = ' ';
 		}
-		
-		
+
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[0].length; x++) {
 
-				if (newGrid[y][x] == ' '){
+				if (newGrid[y][x] == ' ') {
 					char prev = ' ';
-					for (int i = 0; i <= y; i++){
+					for (int i = 0; i <= y; i++) {
 						char temp = newGrid[i][x];
 						newGrid[i][x] = prev;
 						prev = temp;
@@ -54,7 +52,7 @@ public class Grids {
 		             .toArray((int length) -> new char[length][]);
 	}
 
-	private static void printGrid(char[][] grid){
+	private static void printGrid(char[][] grid) {
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[0].length; x++) {
 				System.out.print(grid[y][x] + " ");
@@ -62,7 +60,7 @@ public class Grids {
 			System.out.println("");
 		}
 	}
-	
+
 	private static char[][] createGrid() {
 		char[][] grid = new char[4][4];
 		// y, x

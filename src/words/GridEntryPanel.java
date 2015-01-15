@@ -10,16 +10,16 @@ import javax.swing.JTextField;
 public class GridEntryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField[][] characters;
+	private final JTextField[][] characters;
 
-	public GridEntryPanel(int x) {
+	public GridEntryPanel(final int x) {
 		this.setLayout(new GridBagLayout());
 
 		characters = new JTextField[x][x];
 
 		for (int i = 0; i < x * x; i++) {
-			JTextField button = new JTextField("");
-			GridBagConstraints c = new GridBagConstraints();
+			final JTextField button = new JTextField("");
+			final GridBagConstraints c = new GridBagConstraints();
 			c.gridx = i % x;
 			c.gridy = i / 4;
 
@@ -28,7 +28,7 @@ public class GridEntryPanel extends JPanel {
 
 			c.weightx = 2.0;
 			c.weighty = 2.0;
-			c.insets = new Insets(1,1,1,1);
+			c.insets = new Insets(1, 1, 1, 1);
 			c.fill = GridBagConstraints.HORIZONTAL;
 
 			button.setMinimumSize(button.getPreferredSize());

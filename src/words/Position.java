@@ -4,7 +4,7 @@ package words;
  * Position in a 2D grid.
  */
 public class Position {
-	
+
 	public int x;
 	public int y;
 
@@ -37,6 +37,5 @@ public class Position {
 			return false;
 		return true;
 	}
-	
-	
+
 }

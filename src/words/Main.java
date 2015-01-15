@@ -10,39 +10,36 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		System.out.println("Reading dictionary...");
-		List<String> dictionaryAsList = Files.readAllLines(Paths.get("", "dictionary.txt"));
-		Set<String> dictionary = new HashSet<>(dictionaryAsList);
+		final List<String> dictionaryAsList = Files.readAllLines(Paths.get("", "dictionary.txt"));
+		final Set<String> dictionary = new HashSet<>(dictionaryAsList);
 		System.out.println("Finished reading dictionary...");
-		
-		WordFinder finder = new WordFinder(dictionary);
-		
-		Queue<Integer> q = new LinkedList<>();
+
+		final WordFinder finder = new WordFinder(dictionary);
+
+		final Queue<Integer> q = new LinkedList<>();
 		q.add(3);
 		q.add(6);
 		q.add(7);
-		List<List<String>> wordsFound = finder.findWords(createGrid(), q);
-		
+		final List<List<String>> wordsFound = finder.findWords(createGrid(), q);
+
 		printWords(wordsFound);
-		
+
 	}
 
-	private static void printWords(List<List<String>> wordsFound) {
+	private static void printWords(final List<List<String>> wordsFound) {
 		System.out.println("Words found:");
-		for (List<String> result : wordsFound) {
-			for (String word : result) {
+		for (final List<String> result : wordsFound) {
+			for (final String word : result) {
 				System.out.print(word + ", ");
 			}
 			System.out.println("");
 		}
 	}
-	
-
-	
 
 	private static char[][] createGrid() {
-		char[][] grid = new char[4][4];
+		final char[][] grid = new char[4][4];
 		// y, x
 		grid[0][0] = 'n';
 		grid[0][1] = 'o';
@@ -60,7 +57,7 @@ public class Main {
 		grid[3][1] = 'e';
 		grid[3][2] = 'n';
 		grid[3][3] = 'j';
-	
+
 		return grid;
 	}
 

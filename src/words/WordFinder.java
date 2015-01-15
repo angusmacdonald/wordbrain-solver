@@ -9,25 +9,23 @@ import java.util.Set;
 
 public class WordFinder {
 
-	private Set<String> dictionary;
+	private final Set<String> dictionary;
 
-	public WordFinder(Set<String> dictionary) {
+	public WordFinder(final Set<String> dictionary) {
 		this.dictionary = dictionary;
 	}
 
 	/**
-	 * Find all valid WordBrain words in the given grid that are the specified
-	 * length.
+	 * Find all valid WordBrain words in the given grid that are the specified length.
 	 * 
 	 * @param grid
-	 *            Word grid.
+	 *        Word grid.
 	 * @param lengthOfWord
-	 *            Length of the word we are looking for.
+	 *        Length of the word we are looking for.
 	 * @return All valid words in the length.
 	 */
-	public List<List<String>> findWords(char[][] grid,
-			Queue<Integer> lengthOfWord) {
-		List<List<String>> wordsFound = new LinkedList<>();
+	public List<List<String>> findWords(final char[][] grid, final Queue<Integer> lengthOfWord) {
+		final List<List<String>> wordsFound = new LinkedList<>();
 
 		if (lengthOfWord == null || lengthOfWord.size() == 0) {
 			return wordsFound;
@@ -40,8 +38,7 @@ public class WordFinder {
 			for (int x = 0; x < grid[0].length; x++) {
 
 				// Start with no words seen, and empty string.
-				wordsFound.addAll(findWord("", x, y, new HashSet<>(),
-						lengthOfWord, grid));
+				wordsFound.addAll(findWord("", x, y, new HashSet<>(), lengthOfWord, grid));
 
 			}
 		}
@@ -50,68 +47,60 @@ public class WordFinder {
 	}
 
 	/**
-	 * Recursively called to build up words. If a word is of the desired length,
-	 * check if it is in the dictionary.
+	 * Recursively called to build up words. If a word is of the desired length, check if it is in the dictionary.
 	 * <p>
-	 * Starting with an empty string, it recursively calls out to (up to) 8
-	 * characters next to the given character, stopping where it has already
-	 * used a character as part of the word, or at the edge of the grid.
+	 * Starting with an empty string, it recursively calls out to (up to) 8 characters next to the given character,
+	 * stopping where it has already used a character as part of the word, or at the edge of the grid.
 	 * 
 	 * @param currentWord
-	 *            The word being built up as part of this call.
+	 *        The word being built up as part of this call.
 	 * @param x
-	 *            The current position in the grid, x axis.
+	 *        The current position in the grid, x axis.
 	 * @param y
-	 *            The current position in the grid, y axis.
+	 *        The current position in the grid, y axis.
 	 * @param positionsSeen
-	 *            Set of positions already seen.
+	 *        Set of positions already seen.
 	 * @param lengthOfWord
-	 *            The length of the word we are looking for.
+	 *        The length of the word we are looking for.
 	 * @param grid
-	 *            The word grid.
+	 *        The word grid.
 	 * @return List of valid words found.
 	 */
-	private List<List<String>> findWord(String currentWord, int x, int y,
-			Set<Position> positionsSeen, Queue<Integer> lengthOfWord,
-			char[][] grid) {
+	private List<List<String>> findWord(final String currentWord, final int x, final int y, final Set<Position> positionsSeen,
+			final Queue<Integer> lengthOfWord, final char[][] grid) {
 
 		/*
 		 * Terminating conditions:
 		 */
-		if (x < 0 || y < 0 || y >= grid.length || x >= grid[0].length
-				|| positionsSeen.contains(new Position(x, y))
-				|| grid[y][x] == ' ') {
+		if (x < 0 || y < 0 || y >= grid.length || x >= grid[0].length || positionsSeen.contains(new Position(x, y)) || grid[y][x] == ' ') {
 			return Collections.emptyList();
 		}
 
-		if (lengthOfWord.isEmpty()
-				|| currentWord.length() > lengthOfWord.peek()) {
+		if (lengthOfWord.isEmpty() || currentWord.length() > lengthOfWord.peek()) {
 			return Collections.emptyList();
 		}
 
 		/*
 		 * Begin check with larger word:
 		 */
-		List<List<String>> wordsFound = new LinkedList<>();
+		final List<List<String>> wordsFound = new LinkedList<>();
 
-		String newWord = currentWord + grid[y][x];
+		final String newWord = currentWord + grid[y][x];
 
-		if (newWord.length() == lengthOfWord.peek()
-				&& dictionary.contains(newWord)) {
+		if (newWord.length() == lengthOfWord.peek() && dictionary.contains(newWord)) {
 			// We've found a potential first word. Move on to second word.
-			Queue<Integer> newLengthOfWord = new LinkedList<>(lengthOfWord); 
+			final Queue<Integer> newLengthOfWord = new LinkedList<>(lengthOfWord);
 			newLengthOfWord.remove();
 
-			List<String> resultSet = new LinkedList<>();
+			final List<String> resultSet = new LinkedList<>();
 			resultSet.add(newWord);
 
 			if (newLengthOfWord.isEmpty()) {
 				wordsFound.add(resultSet);
 			} else {
 				positionsSeen.add(new Position(x, y));
-				char[][] updatedGrid = Grids.createNewGrid(grid, positionsSeen);
-				List<List<String>> nextWords = findWords(updatedGrid,
-						newLengthOfWord);
+				final char[][] updatedGrid = Grids.createNewGrid(grid, positionsSeen);
+				final List<List<String>> nextWords = findWords(updatedGrid, newLengthOfWord);
 
 				if (nextWords.size() > 0 && nextWords.get(0).size() > 0) {
 					resultSet.addAll(nextWords.get(0));
@@ -121,24 +110,16 @@ public class WordFinder {
 			}
 		} else if (newWord.length() < lengthOfWord.peek()) {
 
-			Set<Position> newPosSeen = new HashSet<>(positionsSeen);
+			final Set<Position> newPosSeen = new HashSet<>(positionsSeen);
 			newPosSeen.add(new Position(x, y));
-			wordsFound.addAll(findWord(newWord, x - 1, y, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x, y - 1, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x - 1, y - 1, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x + 1, y, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x, y + 1, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x + 1, y + 1, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x + 1, y - 1, newPosSeen,
-					lengthOfWord, grid));
-			wordsFound.addAll(findWord(newWord, x - 1, y + 1, newPosSeen,
-					lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x - 1, y, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x, y - 1, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x - 1, y - 1, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x, y + 1, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y + 1, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x + 1, y - 1, newPosSeen, lengthOfWord, grid));
+			wordsFound.addAll(findWord(newWord, x - 1, y + 1, newPosSeen, lengthOfWord, grid));
 
 		}
 

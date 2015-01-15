@@ -2,8 +2,6 @@ package words;
 
 import java.awt.Button;
 import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -18,99 +16,91 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class GridEntryFrame extends JFrame  implements ActionListener{
+public class GridEntryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	
-	private Set<String> dictionary;
-	private int x;
-	
-	private GridEntryPanel gridFrame;
 
-	private JTextArea wordLengthEntry;
+	private final Set<String> dictionary;
+	private final int x;
 
-	public GridEntryFrame(int x, Set<String> dictionary) {
+	private final GridEntryPanel gridFrame;
+
+	private final JTextArea wordLengthEntry;
+
+	public GridEntryFrame(final int x, final Set<String> dictionary) {
 		this.x = x;
 		this.dictionary = dictionary;
-		
+
 		this.gridFrame = new GridEntryPanel(x);
-		
-		Container pane = getContentPane();
-		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("170px"),},
-			new RowSpec[] {
-				RowSpec.decode("120px"),
-				RowSpec.decode("16px"),
-				RowSpec.decode("29px"),}));
-		
+
+		final Container pane = getContentPane();
+		getContentPane().setLayout(
+				new FormLayout(new ColumnSpec[] { ColumnSpec.decode("170px"), }, new RowSpec[] { RowSpec.decode("120px"),
+						RowSpec.decode("16px"), RowSpec.decode("29px"), }));
+
 		pane.add(gridFrame, "1, 1, fill, center");
-		
-		
+
 		wordLengthEntry = new JTextArea("");
 		pane.add(wordLengthEntry, "1, 2, fill, center");
-		
-		
-		
-		Button submitButton = new Button("Submit");
+
+		final Button submitButton = new Button("Submit");
 		submitButton.addActionListener(this);
 		pane.add(submitButton, "1, 3, fill, center");
-		
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
-		
+
 		this.setSize(300, 300);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		System.out.println("Reading dictionary...");
-		List<String> dictionaryAsList = Files.readAllLines(Paths.get("", "dictionary.txt"));
-		Set<String> dictionary = new HashSet<>(dictionaryAsList);
+		final List<String> dictionaryAsList = Files.readAllLines(Paths.get("", "dictionary.txt"));
+		final Set<String> dictionary = new HashSet<>(dictionaryAsList);
 		System.out.println("Finished reading dictionary...");
-		
-		
-		GridEntryFrame gst = new GridEntryFrame(4, dictionary);
-		
-		
+
+		final GridEntryFrame gst = new GridEntryFrame(4, dictionary);
+
 		gst.setVisible(true);
-		
+
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		WordFinder finder = new WordFinder(dictionary);
-		
-		int len = Integer.parseInt(wordLengthEntry.getText());
-		Queue<Integer> lens = new LinkedList<>();
+	public void actionPerformed(final ActionEvent e) {
+		final WordFinder finder = new WordFinder(dictionary);
+
+		final int len = Integer.parseInt(wordLengthEntry.getText());
+		final Queue<Integer> lens = new LinkedList<>();
 		lens.add(len);
-		List<List<String>> wordsFound = finder.findWords(createGrid(), lens);
-		
+		final List<List<String>> wordsFound = finder.findWords(createGrid(), lens);
+
 		printWords(wordsFound);
 	}
 
 	private char[][] createGrid() {
-		char[][] grid = new char[x][x];
-		
+		final char[][] grid = new char[x][x];
+
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[0].length; x++) {
-				String text = gridFrame.getCharacters()[y][x].getText();
-				char charAt = text.length() == 0? ' ': text.charAt(0);
+				final String text = gridFrame.getCharacters()[y][x].getText();
+				final char charAt = text.length() == 0 ? ' ' : text.charAt(0);
 				grid[y][x] = charAt;
 			}
 		}
 		return grid;
 	}
-	
-	private static void printWords(List<List<String>> wordsFound) {
+
+	private static void printWords(final List<List<String>> wordsFound) {
 		System.out.println("Words found:");
-		for (List<String> result : wordsFound) {
-			for (String word : result) {
+		for (final List<String> result : wordsFound) {
+			for (final String word : result) {
 				System.out.print(word + ", ");
 			}
 			System.out.println("");
 		}
 	}
-	
+
 }
