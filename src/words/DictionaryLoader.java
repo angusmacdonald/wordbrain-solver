@@ -1,7 +1,3 @@
-/*
- * Copyright 2015, AetherWorks LLC.
- */
-
 package words;
 
 import java.io.IOException;

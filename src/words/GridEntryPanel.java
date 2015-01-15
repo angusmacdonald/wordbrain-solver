@@ -6,6 +6,8 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Document;
 
 public class GridEntryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,13 @@ public class GridEntryPanel extends JPanel {
 
 		for (int i = 0; i < x * x; i++) {
 			final JTextField button = new JTextField("");
+
+			final SizeDocumentFilter sf = new SizeDocumentFilter(1);
+			final Document doc = button.getDocument();
+			if (doc instanceof AbstractDocument) {
+				((AbstractDocument) doc).setDocumentFilter(sf);
+			}
+
 			final GridBagConstraints c = new GridBagConstraints();
 			c.gridx = i % x;
 			c.gridy = i / 4;
