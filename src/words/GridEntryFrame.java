@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -90,7 +91,9 @@ public class GridEntryFrame extends JFrame  implements ActionListener{
 		
 		for (int y = 0; y < grid.length; y++) {
 			for (int x = 0; x < grid[0].length; x++) {
-				grid[y][x] = gridFrame.getCharacters()[y][x].getText().charAt(0);
+				String text = gridFrame.getCharacters()[y][x].getText();
+				char charAt = text.length() == 0? ' ': text.charAt(0);
+				grid[y][x] = charAt;
 			}
 		}
 		return grid;

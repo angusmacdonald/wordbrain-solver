@@ -13,7 +13,6 @@ public class GridEntryPanel extends JPanel {
 	private JTextField[][] characters;
 
 	public GridEntryPanel(int x) {
-		x = 4;
 		this.setLayout(new GridBagLayout());
 
 		characters = new JTextField[x][x];
