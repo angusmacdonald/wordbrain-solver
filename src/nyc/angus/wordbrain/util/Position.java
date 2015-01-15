@@ -1,41 +1,35 @@
 package nyc.angus.wordbrain.util;
 
+import com.google.common.base.Objects;
+
 /**
  * Position in a 2D grid.
  */
 public class Position {
-
 	public int x;
 	public int y;
 
-	public Position(int x, int y) {
+	public Position(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + x;
-		result = prime * result + y;
-		return result;
+		return Objects.hashCode(x, y);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Position other = (Position) obj;
-		if (x != other.x)
-			return false;
-		if (y != other.y)
-			return false;
-		return true;
+	public boolean equals(final Object object) {
+		if (object instanceof Position) {
+			final Position that = (Position) object;
+			return Objects.equal(this.x, that.x) && Objects.equal(this.y, that.y);
+		}
+		return false;
 	}
 
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this).add("x", x).add("y", y).toString();
+	}
 }

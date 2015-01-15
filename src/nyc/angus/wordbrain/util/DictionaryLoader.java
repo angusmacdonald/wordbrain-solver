@@ -4,15 +4,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Utility for loading a dictionary of words from disk into memory.
- * 
- * @author Angus Macdonald (amacdonald@aetherworks.com)
  */
 public class DictionaryLoader {
 	private final static Logger LOGGER = Logger.getLogger(DictionaryLoader.class.getName());
@@ -31,8 +28,7 @@ public class DictionaryLoader {
 	public static Set<String> loadDictionary(final String fileLocation) throws IOException {
 		LOGGER.log(Level.INFO, "Reading dictionary...");
 
-		final List<String> dictionaryAsList = Files.readAllLines(Paths.get(fileLocation));
-		final Set<String> dictionary = new HashSet<>(dictionaryAsList);
+		final Set<String> dictionary = new HashSet<>(Files.readAllLines(Paths.get(fileLocation)));
 
 		LOGGER.log(Level.INFO, "Finished reading dictionary...");
 

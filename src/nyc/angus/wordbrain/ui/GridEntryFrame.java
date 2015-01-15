@@ -13,22 +13,31 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import nyc.angus.wordbrain.finder.WordFinder;
+import nyc.angus.wordbrain.finder.WordBrainSolver;
 import nyc.angus.wordbrain.util.DictionaryLoader;
+import nyc.angus.wordbrain.util.Printers;
 
-import com.google.common.base.Joiner;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
+/**
+ * Frame allowing entry of the characters in the word grid.
+ */
 public class GridEntryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
+	/*
+	 * UI Components
+	 */
 	private final GridEntryPanel gridFrame;
-
 	private final JTextArea wordLengthEntry;
+	private final Button submitButton;
 
-	private final WordFinder wordFinder;
+	/**
+	 * Solver.
+	 */
+	private final WordBrainSolver wordFinder;
 
 	public GridEntryFrame(final int x, final Set<String> dictionary) {
 
@@ -41,7 +50,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Initialize solver:
-		wordFinder = new WordFinder(dictionary);
+		wordFinder = new WordBrainSolver(dictionary);
 
 		// Initialize grid entry:
 		this.gridFrame = new GridEntryPanel(x);
@@ -51,8 +60,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 		wordLengthEntry = new JTextArea("");
 		pane.add(wordLengthEntry, "1, 2, fill, center");
 
-		// Initialize submit button:
-		final Button submitButton = new Button("Submit");
+		submitButton = new Button("Submit");
 		submitButton.addActionListener(this);
 		pane.add(submitButton, "1, 3, fill, center");
 
@@ -67,10 +75,27 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
+		if (e.getSource().equals(submitButton)) {
+			findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+		}
+	}
 
-		final String lengths = wordLengthEntry.getText();
+	/**
+	 * Find the words in the given grid, provided they are of the specified lengths.
+	 */
+	private void findWords(final char[][] grid, final String wordLengthString) {
+		final Queue<Integer> wordLengths = getWordLengths(wordLengthString);
 
-		final String[] splitLen = lengths.split(",");
+		final List<List<String>> wordsFound = wordFinder.findWords(grid, wordLengths);
+
+		Printers.printSolutions(wordsFound);
+	}
+
+	/**
+	 * Get the specified word lengths to be found in the grid.
+	 */
+	private Queue<Integer> getWordLengths(final String lengthsAsString) {
+		final String[] splitLen = lengthsAsString.split(",");
 
 		final Queue<Integer> lens = new LinkedList<>();
 
@@ -78,16 +103,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 			lens.add(Integer.parseInt(len.trim()));
 		}
 
-		final List<List<String>> wordsFound = wordFinder.findWords(gridFrame.createGridFromUiForm(), lens);
-
-		printWords(wordsFound);
-	}
-
-	private static void printWords(final List<List<String>> wordsFound) {
-		System.out.println("Words found:");
-		for (final List<String> result : wordsFound) {
-			Joiner.on(", ").join(result);
-		}
+		return lens;
 	}
 
 	public static void main(final String[] args) throws IOException {

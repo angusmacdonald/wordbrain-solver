@@ -12,6 +12,9 @@ import javax.swing.text.Document;
 public class GridEntryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The grid for entering characters.
+	 */
 	private final JTextField[][] characters;
 
 	/**
@@ -19,39 +22,65 @@ public class GridEntryPanel extends JPanel {
 	 */
 	private final int gridSize;
 
-	public GridEntryPanel(final int x) {
-		gridSize = x;
+	public GridEntryPanel(final int gridSize) {
+		this.gridSize = gridSize;
 		this.setLayout(new GridBagLayout());
 
-		characters = new JTextField[x][x];
+		/*
+		 * Set up character grid.
+		 */
+		characters = new JTextField[gridSize][gridSize];
 
-		for (int i = 0; i < x * x; i++) {
-			final JTextField button = new JTextField("");
+		for (int i = 0; i < gridSize * gridSize; i++) {
+			final JTextField gridField = new JTextField("");
 
-			final SizeDocumentFilter sf = new SizeDocumentFilter(1);
-			final Document doc = button.getDocument();
-			if (doc instanceof AbstractDocument) {
-				((AbstractDocument) doc).setDocumentFilter(sf);
-			}
+			setFieldToAutoTabAfterNChars(gridField, 1);
 
 			final GridBagConstraints c = new GridBagConstraints();
-			c.gridx = i % x;
-			c.gridy = i / 4;
+			c.gridx = calculateYCoord(gridSize, i);
+			c.gridy = calculateXCoord(i);
 
 			c.gridwidth = 1;
 			c.gridheight = 1;
 
 			c.weightx = 2.0;
 			c.weighty = 2.0;
+
 			c.insets = new Insets(1, 1, 1, 1);
+
 			c.fill = GridBagConstraints.HORIZONTAL;
 
-			button.setMinimumSize(button.getPreferredSize());
-			this.add(button, c);
+			gridField.setMinimumSize(gridField.getPreferredSize());
 
-			characters[i / 4][i % x] = button;
+			this.add(gridField, c);
+
+			characters[calculateXCoord(i)][calculateYCoord(gridSize, i)] = gridField;
 		}
+	}
 
+	/**
+	 * Calculate the fields x-coordinate in the grid.
+	 */
+	private int calculateXCoord(final int i) {
+		return i / 4;
+	}
+
+	/**
+	 * Calculate the fields y-coordinate in the grid.
+	 */
+	private int calculateYCoord(final int gridSize, final int i) {
+		return i % gridSize;
+	}
+
+	/**
+	 * Set a filter on the text field ot ensure it auto-tabs after n characters are entered.
+	 */
+	private void setFieldToAutoTabAfterNChars(final JTextField gridField, final int charsBeforeTab) {
+		final SizeDocumentFilter sf = new SizeDocumentFilter(charsBeforeTab);
+		final Document doc = gridField.getDocument();
+		if (doc instanceof AbstractDocument) {
+			((AbstractDocument) doc).setDocumentFilter(sf);
+		}
 	}
 
 	/**

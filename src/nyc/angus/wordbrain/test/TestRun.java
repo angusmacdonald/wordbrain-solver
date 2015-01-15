@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import nyc.angus.wordbrain.finder.WordFinder;
+import nyc.angus.wordbrain.finder.WordBrainSolver;
 import nyc.angus.wordbrain.util.DictionaryLoader;
 
 import com.google.common.base.Joiner;
@@ -18,7 +18,7 @@ public class TestRun {
 	public static void main(final String[] args) throws IOException {
 		final Set<String> dictionary = DictionaryLoader.loadDictionary("dictionary.txt");
 
-		final WordFinder finder = new WordFinder(dictionary);
+		final WordBrainSolver finder = new WordBrainSolver(dictionary);
 
 		final Queue<Integer> q = new LinkedList<>();
 		q.add(3);
