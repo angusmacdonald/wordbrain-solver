@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.Document;
 
+import nyc.angus.wordgrid.ui.filter.SizeDocumentFilter;
+
 /**
  * Panel providing grid of text fields to allow entry of a word grid puzzle.
  * 

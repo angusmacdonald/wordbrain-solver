@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.ui;
+package nyc.angus.wordgrid.ui.filter;
 
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;

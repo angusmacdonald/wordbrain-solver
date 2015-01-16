@@ -10,6 +10,7 @@ import java.util.Queue;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
@@ -42,37 +43,52 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	 * Solver.
 	 */
 	private final WordGridSolver wordFinder;
+	private final JLabel lblPuzzle;
+	private final JLabel lblWordLengths;
+	private final JLabel lblPotentialSolutions;
 
 	public WordGridSolverFrame(final int x, final Dictionary dictionary) {
 
 		// Set up frame:
 		final Container pane = getContentPane();
 		getContentPane().setLayout(
-				new FormLayout(new ColumnSpec[] { ColumnSpec.decode("170px"), FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(97dlu;default):grow"), }, new RowSpec[] { RowSpec.decode("120px:grow"),
-						RowSpec.decode("16px"), RowSpec.decode("29px"), }));
+				new FormLayout(new ColumnSpec[] { FormFactory.DEFAULT_COLSPEC, FormFactory.RELATED_GAP_COLSPEC, ColumnSpec.decode("170px"),
+						FormFactory.RELATED_GAP_COLSPEC, ColumnSpec.decode("left:max(97dlu;default):grow"),
+						FormFactory.RELATED_GAP_COLSPEC, ColumnSpec.decode("default:grow"), }, new RowSpec[] { FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC, RowSpec.decode("120px:grow"), FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC, RowSpec.decode("16px"), RowSpec.decode("29px"), FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC, }));
 		this.setTitle("WordBrain Solver");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Initialize solver:
 		wordFinder = new WordGridSolver(dictionary);
 
+		lblPuzzle = new JLabel("Puzzle:");
+		getContentPane().add(lblPuzzle, "3, 1");
+
+		lblPotentialSolutions = new JLabel("Potential Solutions:");
+		getContentPane().add(lblPotentialSolutions, "5, 1");
+
 		// Initialize grid entry:
 		this.gridFrame = new GridEntryPanel(x);
-		pane.add(gridFrame, "1, 1, fill, center");
+		pane.add(gridFrame, "3, 3, fill, center");
 
 		listModel = new DefaultListModel<>();
 		lstSolutions = new JList<>(listModel);
 
-		getContentPane().add(lstSolutions, "3, 1, 1, 3, fill, fill");
+		getContentPane().add(lstSolutions, "5, 3, 1, 5, fill, fill");
+
+		lblWordLengths = new JLabel("Word Lengths:");
+		getContentPane().add(lblWordLengths, "3, 4");
 
 		// Initialize length of word entry:
 		wordLengthEntry = new JTextField("");
-		pane.add(wordLengthEntry, "1, 2, fill, center");
+		pane.add(wordLengthEntry, "3, 6, fill, center");
 
 		submitButton = new Button("Submit");
 		submitButton.addActionListener(this);
-		pane.add(submitButton, "1, 3, fill, center");
+		pane.add(submitButton, "3, 7, fill, center");
 
 		// Set size of frame:
 		this.pack();
