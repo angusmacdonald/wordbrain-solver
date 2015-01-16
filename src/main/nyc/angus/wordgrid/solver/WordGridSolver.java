@@ -1,4 +1,4 @@
-package nyc.angus.wordbrain.finder;
+package nyc.angus.wordgrid.solver;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,8 +9,9 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import nyc.angus.wordbrain.util.Grids;
-import nyc.angus.wordbrain.util.Position;
+import nyc.angus.wordgrid.dictionary.Dictionary;
+import nyc.angus.wordgrid.util.Grids;
+import nyc.angus.wordgrid.util.Position;
 
 import com.google.common.base.Preconditions;
 
@@ -18,14 +19,14 @@ import com.google.common.base.Preconditions;
  * Provides potential solutions for WordBrain problems, provided a grid of characters, and the lengths of the words to
  * be found in the grid.
  */
-public class WordBrainSolver {
+public class WordGridSolver {
 
 	/**
 	 * The dictionary of words that may exist in the grid.
 	 */
-	private final Set<String> dictionary;
+	private final Dictionary dictionary;
 
-	public WordBrainSolver(final Set<String> dictionary) {
+	public WordGridSolver(final Dictionary dictionary) {
 		Preconditions.checkNotNull(dictionary);
 		this.dictionary = dictionary;
 	}
@@ -42,14 +43,14 @@ public class WordBrainSolver {
 	 *         together, complete the grid.
 	 */
 	public List<LinkedList<String>> findWords(final char[][] grid, final Queue<Integer> wordLengths) {
-		final List<LinkedList<String>> wordsFound = new LinkedList<>();
-
 		Preconditions.checkNotNull(grid);
 		Preconditions.checkArgument(grid.length > 0 || grid[0].length > 0);
 
 		if (wordLengths == null || wordLengths.size() == 0) {
-			return wordsFound;
+			return Collections.emptyList();
 		}
+
+		final List<LinkedList<String>> wordsFound = new LinkedList<>();
 
 		/*
 		 * Start looking for words from each position in the grid.
@@ -95,24 +96,32 @@ public class WordBrainSolver {
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired) {
 
 		// Check terminating conditions (co-ordinates off grid, grid position already used, or grid position empty):
-		if (xPos < 0 || yPos < 0 || yPos >= grid.length || xPos >= grid[0].length || positionsUsedInWord.contains(new Position(xPos, yPos))
-				|| grid[yPos][xPos] == ' ') {
+		if (notAValidPosition(grid, xPos, yPos, positionsUsedInWord)) {
 			return Collections.emptyList();
 		}
 
 		final List<LinkedList<String>> solutions = new LinkedList<>();
 
 		final String newWord = currentWord + grid[yPos][xPos];
-
 		final Integer wordLengthRequired = wordLengthsRequired.peek();
 
-		if (newWord.length() == wordLengthRequired && dictionary.contains(newWord)) {
-			markSolutionAndStartNextWord(grid, xPos, yPos, positionsUsedInWord, wordLengthsRequired, solutions, newWord);
-		} else if (newWord.length() < wordLengthRequired) {
-			findNextCharacterInWord(grid, xPos, yPos, positionsUsedInWord, wordLengthsRequired, solutions, newWord);
+		if (newWord.length() == wordLengthRequired && dictionary.isWord(newWord)) {
+			solutions.addAll(markSolutionAndStartNextWord(grid, xPos, yPos, positionsUsedInWord, wordLengthsRequired, newWord));
+		} else if (newWord.length() < wordLengthRequired && dictionary.isPrefix(newWord)) {
+			solutions.addAll(findNextCharacterInWord(grid, xPos, yPos, positionsUsedInWord, wordLengthsRequired, newWord));
 		}
 
 		return solutions;
+	}
+
+	/**
+	 * A grid position is not valid if one of the co-ordinates is off the grid (e.g. a negative co-ordinate), the grid
+	 * position has already been used for the current word, or the grid position does not contain a character (in which
+	 * case the ' ' char is found).
+	 */
+	private boolean notAValidPosition(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord) {
+		return xPos < 0 || yPos < 0 || yPos >= grid.length || xPos >= grid[0].length
+				|| positionsUsedInWord.contains(new Position(xPos, yPos)) || grid[yPos][xPos] == ' ';
 	}
 
 	/**
@@ -120,11 +129,13 @@ public class WordBrainSolver {
 	 * recursively calling {@link #findWord(char[][], int, int, String, Set, Queue)}, adding every combination of
 	 * remaining characters adjacent to the current character.
 	 */
-	private void findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord,
-			final Queue<Integer> wordLengthsRequired, final List<LinkedList<String>> solutions, final String word) {
+	private List<LinkedList<String>> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,
+			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String word) {
 
 		final Set<Position> newPosSeen = new HashSet<>(positionsUsedInWord);
 		newPosSeen.add(new Position(xPos, yPos));
+
+		final List<LinkedList<String>> solutions = new LinkedList<>();
 
 		solutions.addAll(findWord(grid, xPos - 1, yPos, word, newPosSeen, wordLengthsRequired));
 		solutions.addAll(findWord(grid, xPos, yPos - 1, word, newPosSeen, wordLengthsRequired));
@@ -134,6 +145,8 @@ public class WordBrainSolver {
 		solutions.addAll(findWord(grid, xPos + 1, yPos + 1, word, newPosSeen, wordLengthsRequired));
 		solutions.addAll(findWord(grid, xPos + 1, yPos - 1, word, newPosSeen, wordLengthsRequired));
 		solutions.addAll(findWord(grid, xPos - 1, yPos + 1, word, newPosSeen, wordLengthsRequired));
+
+		return solutions;
 	}
 
 	/**
@@ -147,8 +160,10 @@ public class WordBrainSolver {
 	 * If these recursive calls terminate without finding the next required work, this discovered word can be ignored,
 	 * as it is not part of a complete solution.
 	 */
-	private void markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord,
-			final Queue<Integer> wordLengthsRequired, final List<LinkedList<String>> solutions, final String validWord) {
+	private List<LinkedList<String>> markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos,
+			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String validWord) {
+		final List<LinkedList<String>> solutions = new LinkedList<>();
+
 		/*
 		 * We've found a potential first word. Move on to second word.
 		 */
@@ -162,24 +177,40 @@ public class WordBrainSolver {
 			// No more words to find after this.
 			solutions.add(resultSet);
 		} else {
-			// Mark current position as seen:
-			positionsUsedInWord.add(new Position(xPos, yPos));
-
-			// Remove the word found in this search:
-			final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
-
-			// Start searching again in new grid for the next word:
-			final List<LinkedList<String>> nextWords = findWords(updatedGrid, newWordLengthsRequired);
-
-			// If more words were found, add the whole result to the solution set:
-			if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
-				for (final LinkedList<String> list : nextWords) {
-					list.addFirst(validWord);
-				}
-
-				solutions.addAll(nextWords);
-			}
+			solutions.addAll(startSearchForNextWord(grid, xPos, yPos, positionsUsedInWord, validWord, newWordLengthsRequired));
 		}
+
+		return solutions;
+	}
+
+	/**
+	 * Start searching for the next word in the grid by removing characters used as part of the first word and
+	 * recursively calling {@link #findWords(char[][], Queue)} to begin the search anew.
+	 */
+	private List<LinkedList<String>> startSearchForNextWord(final char[][] grid, final int xPos, final int yPos,
+			final Set<Position> positionsUsedInWord, final String validWord, final Queue<Integer> newWordLengthsRequired) {
+
+		final List<LinkedList<String>> solutions = new LinkedList<>();
+
+		// Mark current position as seen:
+		positionsUsedInWord.add(new Position(xPos, yPos));
+
+		// Remove the word found in this search:
+		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
+
+		// Start searching again in new grid for the next word:
+		final List<LinkedList<String>> nextWords = findWords(updatedGrid, newWordLengthsRequired);
+
+		// If more words were found, add the whole result to the solution set:
+		if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
+			for (final LinkedList<String> list : nextWords) {
+				list.addFirst(validWord);
+			}
+
+			solutions.addAll(nextWords);
+		}
+
+		return solutions;
 	}
 
 	/**

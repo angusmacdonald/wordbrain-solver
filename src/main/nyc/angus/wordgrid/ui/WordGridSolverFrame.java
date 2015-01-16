@@ -1,23 +1,21 @@
-package nyc.angus.wordbrain.ui;
+package nyc.angus.wordgrid.ui;
 
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
-import nyc.angus.wordbrain.finder.WordBrainSolver;
-import nyc.angus.wordbrain.util.DictionaryLoader;
-import nyc.angus.wordbrain.util.Printers;
+import nyc.angus.wordgrid.dictionary.Dictionary;
+import nyc.angus.wordgrid.solver.WordGridSolver;
+import nyc.angus.wordgrid.util.Printers;
 
 import com.google.common.base.Joiner;
 import com.jgoodies.forms.factories.FormFactory;
@@ -28,7 +26,7 @@ import com.jgoodies.forms.layout.RowSpec;
 /**
  * Frame allowing entry of the characters in the word grid.
  */
-public class GridEntryFrame extends JFrame implements ActionListener {
+public class WordGridSolverFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	/*
@@ -43,9 +41,9 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 	/**
 	 * Solver.
 	 */
-	private final WordBrainSolver wordFinder;
+	private final WordGridSolver wordFinder;
 
-	public GridEntryFrame(final int x, final Set<String> dictionary) {
+	public WordGridSolverFrame(final int x, final Dictionary dictionary) {
 
 		// Set up frame:
 		final Container pane = getContentPane();
@@ -57,7 +55,7 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Initialize solver:
-		wordFinder = new WordBrainSolver(dictionary);
+		wordFinder = new WordGridSolver(dictionary);
 
 		// Initialize grid entry:
 		this.gridFrame = new GridEntryPanel(x);
@@ -149,10 +147,5 @@ public class GridEntryFrame extends JFrame implements ActionListener {
 		}
 
 		return lens;
-	}
-
-	public static void main(final String[] args) throws IOException {
-		final GridEntryFrame gst = new GridEntryFrame(4, DictionaryLoader.loadDictionary("dictionary.txt"));
-		gst.setVisible(true);
 	}
 }

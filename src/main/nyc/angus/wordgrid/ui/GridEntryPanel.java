@@ -1,4 +1,4 @@
-package nyc.angus.wordbrain.ui;
+package nyc.angus.wordgrid.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +9,11 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.Document;
 
+/**
+ * Panel providing grid of text fields to allow entry of a word grid puzzle.
+ * 
+ * @author Angus Macdonald (amacdonald@aetherworks.com)
+ */
 public class GridEntryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +43,7 @@ public class GridEntryPanel extends JPanel {
 
 			final GridBagConstraints c = new GridBagConstraints();
 			c.gridx = calculateYCoord(gridSize, i);
-			c.gridy = calculateXCoord(i);
+			c.gridy = calculateXCoord(i, gridSize);
 
 			c.gridwidth = 1;
 			c.gridheight = 1;
@@ -54,15 +59,15 @@ public class GridEntryPanel extends JPanel {
 
 			this.add(gridField, c);
 
-			characters[calculateXCoord(i)][calculateYCoord(gridSize, i)] = gridField;
+			characters[calculateXCoord(i, gridSize)][calculateYCoord(gridSize, i)] = gridField;
 		}
 	}
 
 	/**
 	 * Calculate the fields x-coordinate in the grid.
 	 */
-	private int calculateXCoord(final int i) {
-		return i / 4;
+	private int calculateXCoord(final int i, final int gridSize) {
+		return i / gridSize;
 	}
 
 	/**

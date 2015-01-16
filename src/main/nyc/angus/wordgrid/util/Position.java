@@ -1,4 +1,4 @@
-package nyc.angus.wordbrain.util;
+package nyc.angus.wordgrid.util;
 
 import com.google.common.base.Objects;
 

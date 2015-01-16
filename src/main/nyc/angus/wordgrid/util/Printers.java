@@ -2,7 +2,7 @@
  * Copyright 2015, Angus Macdonald 
  */
 
-package nyc.angus.wordbrain.util;
+package nyc.angus.wordgrid.util;
 
 import java.util.LinkedList;
 import java.util.List;
