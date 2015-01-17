@@ -173,11 +173,15 @@ public class WordGridSolver {
 		final LinkedList<String> resultSet = new LinkedList<>();
 		resultSet.add(validWord);
 
+		Preconditions.checkArgument(validWord.length() == positionsUsedInWord.size() + 1);
+
 		if (newWordLengthsRequired.isEmpty()) {
 			// No more words to find after this.
 			solutions.add(resultSet);
 		} else {
-			solutions.addAll(startSearchForNextWord(grid, xPos, yPos, positionsUsedInWord, validWord, newWordLengthsRequired));
+			final char[][] updatedGrid = removeWordFromGrid(grid, xPos, yPos, positionsUsedInWord);
+
+			solutions.addAll(startSearchForNextWord(updatedGrid, validWord, newWordLengthsRequired));
 		}
 
 		return solutions;
@@ -187,30 +191,41 @@ public class WordGridSolver {
 	 * Start searching for the next word in the grid by removing characters used as part of the first word and
 	 * recursively calling {@link #findWords(char[][], Queue)} to begin the search anew.
 	 */
-	private List<LinkedList<String>> startSearchForNextWord(final char[][] grid, final int xPos, final int yPos,
-			final Set<Position> positionsUsedInWord, final String validWord, final Queue<Integer> newWordLengthsRequired) {
+	private List<LinkedList<String>> startSearchForNextWord(final char[][] grid, final String previouslyDiscoveredWord,
+			final Queue<Integer> newWordLengthsRequired) {
 
 		final List<LinkedList<String>> solutions = new LinkedList<>();
 
-		// Mark current position as seen:
-		positionsUsedInWord.add(new Position(xPos, yPos));
-
-		// Remove the word found in this search:
-		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
-
 		// Start searching again in new grid for the next word:
-		final List<LinkedList<String>> nextWords = findWords(updatedGrid, newWordLengthsRequired);
+		final List<LinkedList<String>> nextWords = findWords(grid, newWordLengthsRequired);
 
 		// If more words were found, add the whole result to the solution set:
 		if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
 			for (final LinkedList<String> list : nextWords) {
-				list.addFirst(validWord);
+				list.addFirst(previouslyDiscoveredWord);
 			}
 
 			solutions.addAll(nextWords);
 		}
 
 		return solutions;
+	}
+
+	/**
+	 * Create a copy of the grid and update it to remove the characters from the recently discovered grid.
+	 * <p>
+	 * A copy is made of the positions used to make this word, because sibling calls (in the recursive call structure)
+	 * to {@link #startSearchForNextWord(char[][], String, Queue)} can also find valid words and also try to update this
+	 * structure, which leads to an incorrect position being added.
+	 */
+	private char[][] removeWordFromGrid(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord) {
+		// Mark current position as seen:
+		final Set<Position> finalPositionsInWord = new HashSet<>(positionsUsedInWord);
+		finalPositionsInWord.add(new Position(xPos, yPos));
+
+		// Remove the word found in this search:
+		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, finalPositionsInWord);
+		return updatedGrid;
 	}
 
 	/**
