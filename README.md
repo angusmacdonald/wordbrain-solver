@@ -73,6 +73,6 @@ Finally, when everything has been entered, solutions to the puzzle are shown on 
 
 ### Credits ###
 
-Word frequencies for the ranker are from [wordfrequency.info](http://www.wordfrequency.info/top5000.asp).
-The dictionary is from [stanford.edu](http://web.stanford.edu/class/cs106l/assignments/dictionary.txt).
+- Word frequencies for the ranker are from [wordfrequency.info](http://www.wordfrequency.info/top5000.asp).
+- The dictionary for the solver is from [stanford.edu](http://web.stanford.edu/class/cs106l/assignments/dictionary.txt).
    
