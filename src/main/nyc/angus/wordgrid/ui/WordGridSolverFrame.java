@@ -12,7 +12,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.solver.WordGridSolver;
@@ -77,7 +79,10 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 		listModel = new DefaultListModel<>();
 		lstSolutions = new JList<>(listModel);
 
-		getContentPane().add(lstSolutions, "5, 3, 1, 5, fill, fill");
+		final JScrollPane listScrollPane = new JScrollPane();
+		listScrollPane.setViewportView(lstSolutions);
+		listScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		getContentPane().add(listScrollPane, "5, 3, 1, 5, fill, fill");
 
 		lblWordLengths = new JLabel("Word Lengths:");
 		getContentPane().add(lblWordLengths, "3, 4");
