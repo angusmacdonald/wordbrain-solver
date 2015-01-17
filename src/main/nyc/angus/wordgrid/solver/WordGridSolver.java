@@ -34,7 +34,7 @@ public class WordGridSolver {
 	/**
 	 * Find all valid WordBrain words in the given grid that are the specified length.
 	 * 
-	 * @param grid
+	 * @param caseSensitiveGrid
 	 *        Word grid.
 	 * @param wordLengths
 	 *        The lengths of the words we are looking for. This is ordered, as some words may only become accessible
