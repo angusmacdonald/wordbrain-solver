@@ -10,8 +10,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
-import nyc.angus.wordgrid.util.Grids;
-import nyc.angus.wordgrid.util.Position;
 
 import com.google.common.base.Preconditions;
 

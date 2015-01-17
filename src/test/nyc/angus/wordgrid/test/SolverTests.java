@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
 import nyc.angus.wordgrid.solver.WordGridSolver;
-import nyc.angus.wordgrid.util.DictionaryLoader;
-import nyc.angus.wordgrid.util.Printers;
+import nyc.angus.wordgrid.ui.Printers;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

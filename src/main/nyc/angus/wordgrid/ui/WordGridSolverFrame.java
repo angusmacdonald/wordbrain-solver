@@ -18,7 +18,6 @@ import javax.swing.ScrollPaneConstants;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.solver.WordGridSolver;
-import nyc.angus.wordgrid.util.Printers;
 
 import com.google.common.base.Joiner;
 import com.jgoodies.forms.factories.FormFactory;

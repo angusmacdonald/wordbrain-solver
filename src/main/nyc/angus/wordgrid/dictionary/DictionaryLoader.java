@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.util;
+package nyc.angus.wordgrid.dictionary;
 
 import java.io.IOException;
 import java.nio.file.Files;

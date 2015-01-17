@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.util;
+package nyc.angus.wordgrid.solver;
 
 import java.util.Arrays;
 import java.util.Set;

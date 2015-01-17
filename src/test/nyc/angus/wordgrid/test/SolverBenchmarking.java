@@ -14,11 +14,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.set.SetDictionary;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
 import nyc.angus.wordgrid.solver.WordGridSolver;
-import nyc.angus.wordgrid.util.DictionaryLoader;
-import nyc.angus.wordgrid.util.Printers;
+import nyc.angus.wordgrid.ui.Printers;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
