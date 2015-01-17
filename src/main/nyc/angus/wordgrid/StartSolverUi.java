@@ -7,7 +7,7 @@ package nyc.angus.wordgrid;
 import java.io.IOException;
 
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
-import nyc.angus.wordgrid.ui.SelectGridSize;
+import nyc.angus.wordgrid.ui.SelectGridSizeFrame;
 import nyc.angus.wordgrid.util.DictionaryLoader;
 
 /**
@@ -19,7 +19,7 @@ public class StartSolverUi {
 	public static void main(final String[] args) throws IOException {
 		final TrieDictionary dictionary = TrieDictionary.createTrie(DictionaryLoader.loadDictionary("dictionary.txt"));
 
-		final SelectGridSize initialFrame = new SelectGridSize(dictionary);
+		final SelectGridSizeFrame initialFrame = new SelectGridSizeFrame(dictionary);
 		initialFrame.setVisible(true);
 	}
 }

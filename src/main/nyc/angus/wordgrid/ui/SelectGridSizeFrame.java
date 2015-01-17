@@ -22,14 +22,14 @@ import com.jgoodies.forms.layout.RowSpec;
 /**
  * Initial frame shown on startup to select the size of the grid to display.
  */
-public class SelectGridSize extends JFrame implements ActionListener {
+public class SelectGridSizeFrame extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JTextField txtGridSizeField;
 	private final JButton btnSetUpGrid;
 	private final Dictionary dictionary;
 
-	public SelectGridSize(final Dictionary dictionary) {
+	public SelectGridSizeFrame(final Dictionary dictionary) {
 		this.setTitle("WordBrain Solver");
 
 		this.dictionary = dictionary;
