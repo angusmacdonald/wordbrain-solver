@@ -10,17 +10,26 @@ WordBrain is a word search like puzzle, where you are presented with a grid of c
  
 WordBrain provides you with the grid, and the length of each word. It's possible to get the right word, but with the wrong characters, meaning you are unable to get later words.
 
+### Notable Features ###
+
+1. Presents complete solutions to the entire grid, not just potential solutions for individual words.
+2. Uses a trie to speed up search for valid words through the grid
+3. Uses a word frequency corpus to rank potential solutions
+4. A UI which allows puzzles to be entered and displays the ranked potential solutions.
+
 ### How does this solve it? ###
 
 My solution solves a grid by taking in a dictionary of english words, and analyzing a grid of characters, using the lengths of the words required to narrow the search space.
  
 The solver performs an exhaustive search of the grid. It starts from each character in the grid and recursively builds all possible combinations of words starting from this character. If it finds a word of the correct length, it removes the characters in this word and starts searching for a word with the next desired length.
 
-I have included two approaches to implementing the dictionary. There is a simple set implementation that adds all words to a `HashSet` and uses the `contains()` call to determine a given string is a word. There is also a Trie implementation which provides an additional `isPrefix()` call, that allows the solver to terminate some searches early (if there are no words that begin with the given prefix).  
+I have included two approaches to implementing the dictionary. There is a simple set implementation that adds all words to a `HashSet` and uses the `contains()` call to determine a given string is a word. There is also a Trie implementation (used by default) that provides an additional `isPrefix()` call, which allows the solver to terminate some searches early (if there are no words that begin with the given prefix).  
 
-### How to run the solver? ###
+Once all potential solutions have been found, they are ranked using a corpus of word frequencies to present the most likely solutions first -- this is important, because the dictionary contains a vast number of unusual words that are unlikely to be in a puzzle.
 
-#### Through Code ####
+### Running the Solver ###
+
+#### In Java ####
 
 To run the code, you will need Java and Maven installed.
 
@@ -41,7 +50,7 @@ To solve a grid, you must provide the grid and a queue of the word lengths requi
 
 This call returns a list of of lists, where the inner list is a set of words that make up a valid solution. This inner list is ordered, so the first entry in the list may be required before the next entry becomes available on the grid. 
 
-#### Through the UI ####
+#### On The UI ####
 
 To run the program through maven, use the following commands to compile and start:
 
@@ -62,4 +71,8 @@ Finally, when everything has been entered, solutions to the puzzle are shown on 
 
 ![Solutions Displayed](examples/grid-with-solution.png)
 
+### Credits ###
+
+Word frequencies for the ranker are from [wordfrequency.info](http://www.wordfrequency.info/top5000.asp).
+The dictionary is from [stanford.edu](http://web.stanford.edu/class/cs106l/assignments/dictionary.txt).
    
