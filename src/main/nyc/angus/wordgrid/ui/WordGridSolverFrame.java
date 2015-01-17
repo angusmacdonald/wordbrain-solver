@@ -72,7 +72,7 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 		lblPuzzle = new JLabel("Puzzle:");
 		getContentPane().add(lblPuzzle, "3, 1");
 
-		lblPotentialSolutions = new JLabel("Potential Solutions:");
+		lblPotentialSolutions = new JLabel("Potential Solutions (sorted by likelihood):");
 		getContentPane().add(lblPotentialSolutions, "5, 1");
 
 		// Initialize grid entry:
@@ -94,7 +94,7 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 		wordLengthEntry = new JTextField("");
 		pane.add(wordLengthEntry, "3, 6, fill, center");
 
-		submitButton = new Button("Submit");
+		submitButton = new Button("Solve!");
 		submitButton.addActionListener(this);
 		pane.add(submitButton, "3, 7, fill, center");
 
