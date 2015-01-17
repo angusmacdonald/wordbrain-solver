@@ -20,7 +20,7 @@ I have included two approaches to implementing the dictionary. There is a simple
 
 ### How to run the solver? ###
 
-#### In Code ####
+#### Through Code ####
 
 To run the code, you will need Java and Maven installed.
 
@@ -40,4 +40,26 @@ To solve a grid, you must provide the grid and a queue of the word lengths requi
 	final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
 
 This call returns a list of of lists, where the inner list is a set of words that make up a valid solution. This inner list is ordered, so the first entry in the list may be required before the next entry becomes available on the grid. 
+
+#### Through the UI ####
+
+To run the program through maven, use the following commands to compile and start:
+
+	mvn compile
+	java -Dexec.mainClass="nyc.angus.wordgrid.StartSolverUi"
+
+Once started you will see the following frame, allowing you to select the size of the grid being played:
+
+![Grid Size Selection](examples/grid-size.png)
+
+Upon selection of a grid, the grid entry pages pops up:
+
+![Grid Entry Page](examples/empty-grid.png)
+
+This form allows you to fill out the grid and enter the lengths of the words being searched as comma separated values.
+
+Finally, when everything has been entered, solutions to the puzzle are shown on the list to the right:
+
+![Solutions Displayed](examples/grid-with-solution.png)
+
    
