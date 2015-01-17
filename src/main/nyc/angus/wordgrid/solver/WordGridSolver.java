@@ -42,24 +42,26 @@ public class WordGridSolver {
 	 * @return The list of word combinations that complete the grid. The sub-list contains the words that, used
 	 *         together, complete the grid.
 	 */
-	public List<LinkedList<String>> findWords(final char[][] grid, final Queue<Integer> wordLengths) {
-		Preconditions.checkNotNull(grid);
-		Preconditions.checkArgument(grid.length > 0 || grid[0].length > 0);
+	public List<LinkedList<String>> findWords(final char[][] caseSensitiveGrid, final Queue<Integer> wordLengths) {
+		Preconditions.checkNotNull(caseSensitiveGrid);
+		Preconditions.checkArgument(caseSensitiveGrid.length > 0 || caseSensitiveGrid[0].length > 0);
 
 		if (wordLengths == null || wordLengths.size() == 0) {
 			return Collections.emptyList();
 		}
+
+		final char[][] lowerCaseGrid = Grids.toLowerCase(caseSensitiveGrid);
 
 		final List<LinkedList<String>> wordsFound = new LinkedList<>();
 
 		/*
 		 * Start looking for words from each position in the grid.
 		 */
-		for (int y = 0; y < grid.length; y++) {
-			for (int x = 0; x < grid[0].length; x++) {
+		for (int y = 0; y < lowerCaseGrid.length; y++) {
+			for (int x = 0; x < lowerCaseGrid[0].length; x++) {
 
 				// Start with no words seen, and empty string.
-				wordsFound.addAll(findWord(grid, x, y, "", new HashSet<>(), wordLengths));
+				wordsFound.addAll(findWord(lowerCaseGrid, x, y, "", new HashSet<>(), wordLengths));
 
 			}
 		}

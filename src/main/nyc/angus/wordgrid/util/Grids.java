@@ -3,6 +3,10 @@ package nyc.angus.wordgrid.util;
 import java.util.Arrays;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
+import com.google.common.base.Preconditions;
+
 /**
  * Utility for working with 2D grids of characters.
  */
@@ -19,7 +23,7 @@ public class Grids {
 	 *        The grid positions to remove.
 	 * @return A new grid, with the specified grid positions removed, and gravity applied to the remaining elements.
 	 */
-	public static char[][] removeElementsAndApplyGravity(final char[][] grid, final Set<Position> positionsToRemove) {
+	public static char[][] removeElementsAndApplyGravity(@Nonnull final char[][] grid, @Nonnull final Set<Position> positionsToRemove) {
 
 		final char[][] newGrid = cloneGrid(grid);
 
@@ -33,7 +37,7 @@ public class Grids {
 	/**
 	 * Clear the specified positions in the grid, replacing the previous character with the ' ' character.
 	 */
-	private static void clearSpecifiedPositions(final char[][] grid, final Set<Position> positionsToRemove) {
+	private static void clearSpecifiedPositions(@Nonnull final char[][] grid, @Nonnull final Set<Position> positionsToRemove) {
 		for (final Position position : positionsToRemove) {
 			grid[position.y][position.x] = ' ';
 		}
@@ -46,7 +50,7 @@ public class Grids {
 	 * <p>
 	 * The grid passed in to this operation is modified.
 	 */
-	private static void applyGravity(final char[][] newGrid) {
+	private static void applyGravity(@Nonnull final char[][] newGrid) {
 		for (int y = 0; y < newGrid.length; y++) {
 			for (int x = 0; x < newGrid[0].length; x++) {
 
@@ -66,7 +70,7 @@ public class Grids {
 	/**
 	 * Clone the provided grid.
 	 */
-	private static char[][] cloneGrid(final char[][] original) {
+	private static char[][] cloneGrid(@Nonnull final char[][] original) {
 		return Arrays.stream(original).map((final char[] row) -> row.clone()).toArray((final int length) -> new char[length][]);
 	}
 
@@ -76,7 +80,7 @@ public class Grids {
 	 * @param grid
 	 *        The grid to be printed.
 	 */
-	public static void printGrid(final char[][] grid) {
+	public static void printGrid(@Nonnull final char[][] grid) {
 		for (final char[] element : grid) {
 			for (int x = 0; x < grid[0].length; x++) {
 				System.out.print(element[x] + " ");
@@ -84,5 +88,23 @@ public class Grids {
 
 			System.out.println("");
 		}
+	}
+
+	/**
+	 * Convert all characters in the grid to their lower-case equivalent, returning the result in a new 2D array.
+	 */
+	public static char[][] toLowerCase(@Nonnull final char[][] caseSensitiveGrid) {
+		Preconditions.checkNotNull(caseSensitiveGrid);
+		Preconditions.checkArgument(caseSensitiveGrid.length > 0);
+
+		final char[][] lowerCaseGrid = new char[caseSensitiveGrid.length][caseSensitiveGrid[0].length];
+
+		for (int y = 0; y < lowerCaseGrid.length; y++) {
+			for (int x = 0; x < lowerCaseGrid[0].length; x++) {
+				lowerCaseGrid[y][x] = Character.toLowerCase(caseSensitiveGrid[y][x]);
+			}
+		}
+
+		return lowerCaseGrid;
 	}
 }
