@@ -1,7 +1,3 @@
-/*
- * Copyright 2015, Angus Macdonald 
- */
-
 package nyc.angus.wordgrid.ui;
 
 import java.awt.event.ActionEvent;

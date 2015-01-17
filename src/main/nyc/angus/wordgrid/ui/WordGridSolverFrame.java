@@ -116,9 +116,11 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 			try {
 				final List<LinkedList<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
 
-				sorter.sortSolutionsByFrequency(solutions);
+				final List<LinkedList<String>> noDupSolutions = WordFrequencySorting.removeDuplicates(solutions);
 
-				showSolutions(solutions);
+				sorter.sortSolutionsByFrequency(noDupSolutions);
+
+				showSolutions(noDupSolutions);
 			} catch (final NumberFormatException e1) {
 				listModel.clear();
 				listModel.addElement("Input format incorrect...");

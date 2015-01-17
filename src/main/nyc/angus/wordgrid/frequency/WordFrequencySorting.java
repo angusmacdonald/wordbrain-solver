@@ -2,9 +2,11 @@ package nyc.angus.wordgrid.frequency;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility for sorting a list of words (solutions in the word grid) by their frequency in an english corpus.
@@ -19,6 +21,27 @@ public class WordFrequencySorting {
 	 */
 	public WordFrequencySorting(final Map<String, Integer> frequencies) {
 		this.frequencies = frequencies;
+	}
+
+	public static List<LinkedList<String>> removeDuplicates(final List<LinkedList<String>> solutions) {
+		final List<LinkedList<String>> noDupSolutions = new LinkedList<>();
+
+		final Set<Integer> seenHashCodes = new HashSet<>();
+
+		for (final LinkedList<String> solution : solutions) {
+			int hashCode = 0;
+
+			for (final String word : solution) {
+				hashCode += word.hashCode();
+			}
+
+			if (!seenHashCodes.contains(hashCode)) {
+				noDupSolutions.add(solution);
+				seenHashCodes.add(hashCode);
+			}
+		}
+
+		return noDupSolutions;
 	}
 
 	/**
