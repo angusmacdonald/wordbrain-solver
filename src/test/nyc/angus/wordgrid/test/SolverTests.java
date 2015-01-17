@@ -6,7 +6,6 @@ package nyc.angus.wordgrid.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import nyc.angus.wordgrid.dictionary.set.SetDictionary;
+import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 import nyc.angus.wordgrid.util.DictionaryLoader;
 import nyc.angus.wordgrid.util.Printers;
@@ -44,9 +43,9 @@ public class SolverTests {
 	public static void initialSetUp() throws IOException {
 		final Set<String> wordSet = DictionaryLoader.loadDictionary("dictionary.txt");
 
-		final SetDictionary setDictionary = new SetDictionary(wordSet);
+		final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);
 
-		solver = new WordGridSolver(setDictionary);
+		solver = new WordGridSolver(trieDictionary);
 	}
 
 	@Test
@@ -57,9 +56,9 @@ public class SolverTests {
 
 		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
 
-		// TODO tin, trowel, boot, jam
 		Printers.printSolutions(solutions);
-		fail("Not completed.");
+
+		assertTrue(solutions.size() > 0);
 	}
 
 	@Test
@@ -78,6 +77,23 @@ public class SolverTests {
 		assertTrue(solutionSet.contains("jam"));
 		assertTrue(solutionSet.contains("cannon"));
 		assertTrue(solutionSet.contains("percent"));
+	}
+
+	/**
+	 * A four-by-four grid where each individual word was found by the solver, but not the whole thing.
+	 */
+	@Test
+	public void fourByFour3() {
+		final char[][] grid = { { 'b', 'o', 'f', 't' }, { 'o', 's', 'f', 'a' }, { 's', 'r', 'i', 'e' }, { 'e', 'h', 't', 'm' } };
+		// meat, sheriff, boots
+
+		final Queue<Integer> wordLengths = setUpWordLengths(4, 7, 5);
+
+		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
+
+		Printers.printSolutions(solutions);
+
+		assertTrue(solutions.size() > 0);
 	}
 
 	private Queue<Integer> setUpWordLengths(final Integer... lengths) {
