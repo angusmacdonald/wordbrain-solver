@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
+import nyc.angus.wordgrid.frequency.WordFrequencySorting;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -28,10 +29,12 @@ public class SelectGridSizeFrame extends JFrame implements ActionListener {
 	private final JTextField txtGridSizeField;
 	private final JButton btnSetUpGrid;
 	private final Dictionary dictionary;
+	private final WordFrequencySorting sorter;
 
-	public SelectGridSizeFrame(final Dictionary dictionary) {
+	public SelectGridSizeFrame(final Dictionary dictionary, final WordFrequencySorting sorter) {
 		this.setTitle("WordBrain Solver");
 
+		this.sorter = sorter;
 		this.dictionary = dictionary;
 
 		getContentPane().setLayout(
@@ -60,7 +63,7 @@ public class SelectGridSizeFrame extends JFrame implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource().equals(btnSetUpGrid)) {
 			final Integer gridSize = Integer.parseInt(txtGridSizeField.getText());
-			final WordGridSolverFrame gst = new WordGridSolverFrame(gridSize, dictionary);
+			final WordGridSolverFrame gst = new WordGridSolverFrame(gridSize, dictionary, sorter);
 			gst.setVisible(true);
 		}
 	}

@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
+import nyc.angus.wordgrid.frequency.WordFrequencySorting;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 
 import com.google.common.base.Joiner;
@@ -39,17 +40,20 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	private final Button submitButton;
 	private final JList<String> lstSolutions;
 	private final DefaultListModel<String> listModel;
+	private final JLabel lblPuzzle;
+	private final JLabel lblWordLengths;
+	private final JLabel lblPotentialSolutions;
 
 	/**
 	 * Solver.
 	 */
 	private final WordGridSolver wordFinder;
-	private final JLabel lblPuzzle;
-	private final JLabel lblWordLengths;
-	private final JLabel lblPotentialSolutions;
 
-	public WordGridSolverFrame(final int x, final Dictionary dictionary) {
+	private final WordFrequencySorting sorter;
 
+	public WordGridSolverFrame(final int x, final Dictionary dictionary, final WordFrequencySorting sorter) {
+
+		this.sorter = sorter;
 		// Set up frame:
 		final Container pane = getContentPane();
 		getContentPane().setLayout(
@@ -111,6 +115,8 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 
 			try {
 				final List<LinkedList<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+
+				sorter.sortSolutionsByFrequency(solutions);
 
 				showSolutions(solutions);
 			} catch (final NumberFormatException e1) {

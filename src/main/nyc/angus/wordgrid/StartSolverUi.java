@@ -1,13 +1,12 @@
-/*
- * Copyright 2015, Angus Macdonald 
- */
-
 package nyc.angus.wordgrid;
 
 import java.io.IOException;
+import java.util.Map;
 
 import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
+import nyc.angus.wordgrid.frequency.WordFrequencyLoader;
+import nyc.angus.wordgrid.frequency.WordFrequencySorting;
 import nyc.angus.wordgrid.ui.SelectGridSizeFrame;
 
 /**
@@ -19,7 +18,10 @@ public class StartSolverUi {
 	public static void main(final String[] args) throws IOException {
 		final TrieDictionary dictionary = TrieDictionary.createTrie(DictionaryLoader.loadDictionary("dictionary.txt"));
 
-		final SelectGridSizeFrame initialFrame = new SelectGridSizeFrame(dictionary);
+		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies("frequencies.csv", 5);
+		final WordFrequencySorting sorter = new WordFrequencySorting(frequencies);
+
+		final SelectGridSizeFrame initialFrame = new SelectGridSizeFrame(dictionary, sorter);
 		initialFrame.setVisible(true);
 	}
 }
