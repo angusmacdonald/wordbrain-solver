@@ -24,7 +24,7 @@ public class WordGridSolver {
 	 */
 	private final Dictionary dictionary;
 
-	public WordGridSolver(final Dictionary dictionary) {
+	public WordGridSolver(@Nonnull final Dictionary dictionary) {
 		Preconditions.checkNotNull(dictionary);
 		this.dictionary = dictionary;
 	}
