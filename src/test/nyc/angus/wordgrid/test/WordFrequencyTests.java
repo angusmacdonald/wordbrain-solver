@@ -16,7 +16,7 @@ import org.junit.Test;
 public class WordFrequencyTests {
 	@Test
 	public void testLoad() throws IOException {
-		final Map<String, Integer> freq = WordFrequencyLoader.loadWordFrequencies("frequencies.csv", 5);
+		final Map<String, Integer> freq = WordFrequencyLoader.loadWordFrequencies("/nyc/angus/wordgrid/resource/frequencies.csv", 5);
 
 		assertTrue(freq.size() >= 4353);
 		assertEquals(Integer.valueOf(1), freq.get("the"));

@@ -16,9 +16,10 @@ import nyc.angus.wordgrid.ui.SelectGridSizeFrame;
 public class StartSolverUi {
 
 	public static void main(final String[] args) throws IOException {
-		final TrieDictionary dictionary = TrieDictionary.createTrie(DictionaryLoader.loadDictionary("dictionary.txt"));
+		final TrieDictionary dictionary = TrieDictionary.createTrie(DictionaryLoader
+				.loadDictionary("/nyc/angus/wordgrid/resource/dictionary.txt"));
 
-		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies("frequencies.csv", 5);
+		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies("/nyc/angus/wordgrid/resource/frequencies.csv", 5);
 		final WordFrequencySorting sorter = new WordFrequencySorting(frequencies);
 
 		final SelectGridSizeFrame initialFrame = new SelectGridSizeFrame(dictionary, sorter);

@@ -25,7 +25,7 @@ public class SolverTests {
 
 	@BeforeClass
 	public static void initialSetUp() throws IOException {
-		final Set<String> wordSet = DictionaryLoader.loadDictionary("dictionary.txt");
+		final Set<String> wordSet = DictionaryLoader.loadDictionary("/nyc/angus/wordgrid/resource/dictionary.txt");
 
 		final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);
 

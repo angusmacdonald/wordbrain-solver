@@ -1,8 +1,9 @@
 package nyc.angus.wordgrid.dictionary;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -28,10 +29,27 @@ public class DictionaryLoader {
 	public static Set<String> loadDictionary(final String fileLocation) throws IOException {
 		LOGGER.log(Level.INFO, "Reading dictionary...");
 
-		final Set<String> dictionary = new HashSet<>(Files.readAllLines(Paths.get(fileLocation)));
+		final InputStream inputStream = DictionaryLoader.class.getResourceAsStream(fileLocation);
 
-		LOGGER.log(Level.INFO, "Finished reading dictionary...");
+		if (inputStream != null) {
 
-		return dictionary;
+			try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+					BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
+				final Set<String> lines = new HashSet<String>();
+
+				String line;
+
+				while ((line = bufferedReader.readLine()) != null) {
+					lines.add(line);
+				}
+
+				LOGGER.log(Level.INFO, "Finished reading dictionary...");
+
+				return lines;
+			}
+		} else {
+			throw new IOException("Could not create input stream.");
+		}
 	}
 }

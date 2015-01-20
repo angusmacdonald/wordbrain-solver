@@ -1,8 +1,9 @@
 package nyc.angus.wordgrid.frequency;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,15 +30,23 @@ public class WordFrequencyLoader {
 
 		int lineNum = 0;
 
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-			for (String line; (line = br.readLine()) != null;) {
-				lineNum++;
-				if (lineNum >= lineWordsStart) {
-					final String[] entries = line.split(",");
-					words.put(entries[1].trim(), Integer.parseInt(entries[0].trim()));
-				}
-			}
+		final InputStream inputStream = WordFrequencyLoader.class.getResourceAsStream(filePath);
 
+		if (inputStream != null) {
+
+			try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+					BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+				for (String line; (line = bufferedReader.readLine()) != null;) {
+					lineNum++;
+					if (lineNum >= lineWordsStart) {
+						final String[] entries = line.split(",");
+						words.put(entries[1].trim(), Integer.parseInt(entries[0].trim()));
+					}
+				}
+
+			}
+		} else {
+			throw new IOException("Could not create input stream.");
 		}
 
 		LOGGER.log(Level.INFO, "Finished loading " + words.size() + " words.");
