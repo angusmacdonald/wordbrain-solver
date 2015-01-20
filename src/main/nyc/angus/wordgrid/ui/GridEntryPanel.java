@@ -13,8 +13,6 @@ import nyc.angus.wordgrid.ui.filter.SizeDocumentFilter;
 
 /**
  * Panel providing grid of text fields to allow entry of a word grid puzzle.
- * 
- * @author Angus Macdonald (amacdonald@aetherworks.com)
  */
 public class GridEntryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
