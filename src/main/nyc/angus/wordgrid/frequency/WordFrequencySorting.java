@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import nyc.angus.wordgrid.solver.GridSolution;
+import nyc.angus.wordgrid.solver.Word;
 
 /**
  * Utility for sorting a list of words (solutions in the word grid) by their frequency in an english corpus.
@@ -33,7 +34,7 @@ public class WordFrequencySorting {
 		for (final GridSolution solution : solutions) {
 			int hashCode = 0;
 
-			for (final String word : solution.getWords()) {
+			for (final Word word : solution.getWords()) {
 				hashCode += word.hashCode();
 			}
 
@@ -78,11 +79,11 @@ public class WordFrequencySorting {
 	 *        The list of words to be ranked.
 	 * @return The lower the number, the higher the ranking.
 	 */
-	private int rank(final LinkedList<String> words) {
+	private int rank(final LinkedList<Word> words) {
 		int ranking = 0;
 
-		for (final String word : words) {
-			final Integer frequency = frequencies.get(word);
+		for (final Word word : words) {
+			final Integer frequency = frequencies.get(word.getString());
 
 			ranking += frequency == null ? 5000 : frequency;
 		}

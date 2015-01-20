@@ -170,18 +170,21 @@ public class WordGridSolver {
 		final Queue<Integer> newWordLengthsRequired = cloneQueue(wordLengthsRequired);
 		newWordLengthsRequired.remove();
 
-		final GridSolution resultSet = new GridSolution();
-		resultSet.add(validWord);
+		final Set<Position> finalPositionsInWord = new HashSet<>(positionsUsedInWord);
 
-		Preconditions.checkArgument(validWord.length() == positionsUsedInWord.size() + 1);
+		final GridSolution resultSet = new GridSolution();
+		final Word word = new Word(validWord, finalPositionsInWord, grid);
+		resultSet.add(word);
+
+		Preconditions.checkArgument(validWord.length() == finalPositionsInWord.size() + 1);
 
 		if (newWordLengthsRequired.isEmpty()) {
 			// No more words to find after this.
 			solutions.add(resultSet);
 		} else {
-			final char[][] updatedGrid = removeWordFromGrid(grid, xPos, yPos, positionsUsedInWord);
+			final char[][] updatedGrid = removeWordFromGrid(grid, xPos, yPos, finalPositionsInWord);
 
-			solutions.addAll(startSearchForNextWord(updatedGrid, validWord, newWordLengthsRequired));
+			solutions.addAll(startSearchForNextWord(updatedGrid, word, newWordLengthsRequired));
 		}
 
 		return solutions;
@@ -191,8 +194,7 @@ public class WordGridSolver {
 	 * Start searching for the next word in the grid by removing characters used as part of the first word and
 	 * recursively calling {@link #findWords(char[][], Queue)} to begin the search anew.
 	 */
-	private List<GridSolution> startSearchForNextWord(final char[][] grid, final String previouslyDiscoveredWord,
-			final Queue<Integer> newWordLengthsRequired) {
+	private List<GridSolution> startSearchForNextWord(final char[][] grid, final Word word, final Queue<Integer> newWordLengthsRequired) {
 
 		final List<GridSolution> solutions = new LinkedList<>();
 
@@ -202,7 +204,7 @@ public class WordGridSolver {
 		// If more words were found, add the whole result to the solution set:
 		if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
 			for (final GridSolution solution : nextWords) {
-				solution.addFirst(previouslyDiscoveredWord);
+				solution.addFirst(word);
 			}
 
 			solutions.addAll(nextWords);
@@ -220,11 +222,10 @@ public class WordGridSolver {
 	 */
 	private char[][] removeWordFromGrid(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord) {
 		// Mark current position as seen:
-		final Set<Position> finalPositionsInWord = new HashSet<>(positionsUsedInWord);
-		finalPositionsInWord.add(new Position(xPos, yPos));
+		positionsUsedInWord.add(new Position(xPos, yPos));
 
 		// Remove the word found in this search:
-		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, finalPositionsInWord);
+		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
 		return updatedGrid;
 	}
 

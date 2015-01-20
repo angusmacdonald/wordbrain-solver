@@ -65,7 +65,7 @@ public class SolverTests {
 		final char[][] grid = { { 'c', 'a', }, { 'R', 't' } };
 		final List<GridSolution> solutions = solver.findWords(grid, setUpWordLengths(4));
 		assertEquals(1, solutions.size());
-		assertEquals("cart", solutions.get(0).getWords().get(0));
+		assertEquals("cart", solutions.get(0).getWords().get(0).getString());
 	}
 
 	@Test
@@ -94,9 +94,9 @@ public class SolverTests {
 		assertEquals(2, solutions.size());
 		final GridSolution solutionSet = solutions.get(0);
 
-		assertTrue(solutionSet.contains("jam"));
-		assertTrue(solutionSet.contains("cannon"));
-		assertTrue(solutionSet.contains("percent"));
+		assertTrue(solutionSet.containsWord("jam"));
+		assertTrue(solutionSet.containsWord("cannon"));
+		assertTrue(solutionSet.containsWord("percent"));
 	}
 
 	/**
