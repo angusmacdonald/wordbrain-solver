@@ -6,7 +6,7 @@ package nyc.angus.wordgrid.ui;
 
 import java.util.List;
 
-import nyc.angus.wordgrid.solver.GridSolution;
+import nyc.angus.wordgrid.solver.solution.GridSolution;
 
 import com.google.common.base.Joiner;
 

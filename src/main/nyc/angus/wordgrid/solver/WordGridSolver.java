@@ -10,6 +10,9 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
+import nyc.angus.wordgrid.solver.solution.GridSolution;
+import nyc.angus.wordgrid.solver.solution.Position;
+import nyc.angus.wordgrid.solver.solution.GridWord;
 
 import com.google.common.base.Preconditions;
 
@@ -132,7 +135,7 @@ public class WordGridSolver {
 	private List<GridSolution> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String word) {
 
-		final Set<Position> newPosSeen = new HashSet<>(positionsUsedInWord);
+		final Set<Position> newPosSeen = clonePositionsSet(positionsUsedInWord);
 		newPosSeen.add(new Position(xPos, yPos));
 
 		final List<GridSolution> solutions = new LinkedList<>();
@@ -170,17 +173,17 @@ public class WordGridSolver {
 		final Queue<Integer> newWordLengthsRequired = cloneQueue(wordLengthsRequired);
 		newWordLengthsRequired.remove();
 
-		final Set<Position> finalPositionsInWord = new HashSet<>(positionsUsedInWord);
+		final Set<Position> finalPositionsInWord = clonePositionsSet(positionsUsedInWord);
 
-		final GridSolution resultSet = new GridSolution();
-		final Word word = new Word(validWord, finalPositionsInWord, grid);
-		resultSet.add(word);
+		final GridWord word = new GridWord(validWord, finalPositionsInWord, grid);
 
-		Preconditions.checkArgument(validWord.length() == finalPositionsInWord.size() + 1);
+		final GridSolution solution = new GridSolution(word);
+
+		assert validWord.length() == finalPositionsInWord.size() + 1;
 
 		if (newWordLengthsRequired.isEmpty()) {
 			// No more words to find after this.
-			solutions.add(resultSet);
+			solutions.add(solution);
 		} else {
 			final char[][] updatedGrid = removeWordFromGrid(grid, xPos, yPos, finalPositionsInWord);
 
@@ -194,7 +197,7 @@ public class WordGridSolver {
 	 * Start searching for the next word in the grid by removing characters used as part of the first word and
 	 * recursively calling {@link #findWords(char[][], Queue)} to begin the search anew.
 	 */
-	private List<GridSolution> startSearchForNextWord(final char[][] grid, final Word word, final Queue<Integer> newWordLengthsRequired) {
+	private List<GridSolution> startSearchForNextWord(final char[][] grid, final GridWord word, final Queue<Integer> newWordLengthsRequired) {
 
 		final List<GridSolution> solutions = new LinkedList<>();
 
@@ -229,10 +232,11 @@ public class WordGridSolver {
 		return updatedGrid;
 	}
 
-	/**
-	 * Clone the provided queue.
-	 */
 	private Queue<Integer> cloneQueue(final Queue<Integer> wordLengthsRequired) {
 		return new LinkedList<>(wordLengthsRequired);
+	}
+
+	private HashSet<Position> clonePositionsSet(final Set<Position> positionsUsedInWord) {
+		return new HashSet<>(positionsUsedInWord);
 	}
 }

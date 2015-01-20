@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.solver;
+package nyc.angus.wordgrid.solver.solution;
 
 import com.google.common.base.Objects;
 

@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.solver;
+package nyc.angus.wordgrid.solver.solution;
 
 import java.util.LinkedList;
 
@@ -6,12 +6,19 @@ import java.util.LinkedList;
  * A solution for a given grid. This is gradually built up, so not all {@link GridSolution} objects are valid solutions.
  */
 public class GridSolution {
-	private final LinkedList<Word> words = new LinkedList<>();
+	private final LinkedList<GridWord> words = new LinkedList<>();
+
+	/**
+	 * Start creating a new solution by adding the first word in that solution.
+	 */
+	public GridSolution(final GridWord word) {
+		add(word);
+	}
 
 	/**
 	 * Add a word to the solution set.
 	 */
-	public void add(final Word validWord) {
+	public void add(final GridWord validWord) {
 		words.add(validWord);
 	}
 
@@ -25,14 +32,14 @@ public class GridSolution {
 	/**
 	 * Add a word to the start of the solution set.
 	 */
-	public void addFirst(final Word word) {
+	public void addFirst(final GridWord word) {
 		words.addFirst(word);
 	}
 
 	/**
 	 * Get the words, ordered, from the solution.
 	 */
-	public LinkedList<Word> getWords() {
+	public LinkedList<GridWord> getWords() {
 		return words;
 	}
 
@@ -40,7 +47,7 @@ public class GridSolution {
 	 * Check if a given word is in the solution.
 	 */
 	public boolean containsWord(final String string) {
-		for (final Word word : words) {
+		for (final GridWord word : words) {
 			if (word.getString().equals(string)) {
 				return true;
 			}

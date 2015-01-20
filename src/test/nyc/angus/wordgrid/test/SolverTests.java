@@ -11,8 +11,8 @@ import java.util.Set;
 
 import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
-import nyc.angus.wordgrid.solver.GridSolution;
 import nyc.angus.wordgrid.solver.WordGridSolver;
+import nyc.angus.wordgrid.solver.solution.GridSolution;
 import nyc.angus.wordgrid.ui.Printers;
 
 import org.junit.BeforeClass;
