@@ -40,7 +40,7 @@ public class WordGridSolver {
 	 * @return The list of word combinations that complete the grid. The sub-list contains the words that, used
 	 *         together, complete the grid.
 	 */
-	public List<LinkedList<String>> findWords(final char[][] caseSensitiveGrid, final Queue<Integer> wordLengths) {
+	public List<GridSolution> findWords(final char[][] caseSensitiveGrid, final Queue<Integer> wordLengths) {
 		Preconditions.checkNotNull(caseSensitiveGrid);
 		Preconditions.checkArgument(caseSensitiveGrid.length > 0 || caseSensitiveGrid[0].length > 0);
 
@@ -50,7 +50,7 @@ public class WordGridSolver {
 
 		final char[][] lowerCaseGrid = Grids.toLowerCase(caseSensitiveGrid);
 
-		final List<LinkedList<String>> wordsFound = new LinkedList<>();
+		final List<GridSolution> wordsFound = new LinkedList<>();
 
 		/*
 		 * Start looking for words from each position in the grid.
@@ -92,7 +92,7 @@ public class WordGridSolver {
 	 * @return The list of word combinations that complete the grid. The sub-list contains the words that, used
 	 *         together, complete the grid.
 	 */
-	private List<LinkedList<String>> findWord(final char[][] grid, final int xPos, final int yPos, @Nonnull final String currentWord,
+	private List<GridSolution> findWord(final char[][] grid, final int xPos, final int yPos, @Nonnull final String currentWord,
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired) {
 
 		// Check terminating conditions (co-ordinates off grid, grid position already used, or grid position empty):
@@ -100,7 +100,7 @@ public class WordGridSolver {
 			return Collections.emptyList();
 		}
 
-		final List<LinkedList<String>> solutions = new LinkedList<>();
+		final List<GridSolution> solutions = new LinkedList<>();
 
 		final String newWord = currentWord + grid[yPos][xPos];
 		final Integer wordLengthRequired = wordLengthsRequired.peek();
@@ -129,13 +129,13 @@ public class WordGridSolver {
 	 * recursively calling {@link #findWord(char[][], int, int, String, Set, Queue)}, adding every combination of
 	 * remaining characters adjacent to the current character.
 	 */
-	private List<LinkedList<String>> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,
+	private List<GridSolution> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String word) {
 
 		final Set<Position> newPosSeen = new HashSet<>(positionsUsedInWord);
 		newPosSeen.add(new Position(xPos, yPos));
 
-		final List<LinkedList<String>> solutions = new LinkedList<>();
+		final List<GridSolution> solutions = new LinkedList<>();
 
 		solutions.addAll(findWord(grid, xPos - 1, yPos, word, newPosSeen, wordLengthsRequired));
 		solutions.addAll(findWord(grid, xPos, yPos - 1, word, newPosSeen, wordLengthsRequired));
@@ -160,9 +160,9 @@ public class WordGridSolver {
 	 * If these recursive calls terminate without finding the next required work, this discovered word can be ignored,
 	 * as it is not part of a complete solution.
 	 */
-	private List<LinkedList<String>> markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos,
+	private List<GridSolution> markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos,
 			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String validWord) {
-		final List<LinkedList<String>> solutions = new LinkedList<>();
+		final List<GridSolution> solutions = new LinkedList<>();
 
 		/*
 		 * We've found a potential first word. Move on to second word.
@@ -170,7 +170,7 @@ public class WordGridSolver {
 		final Queue<Integer> newWordLengthsRequired = cloneQueue(wordLengthsRequired);
 		newWordLengthsRequired.remove();
 
-		final LinkedList<String> resultSet = new LinkedList<>();
+		final GridSolution resultSet = new GridSolution();
 		resultSet.add(validWord);
 
 		Preconditions.checkArgument(validWord.length() == positionsUsedInWord.size() + 1);
@@ -191,18 +191,18 @@ public class WordGridSolver {
 	 * Start searching for the next word in the grid by removing characters used as part of the first word and
 	 * recursively calling {@link #findWords(char[][], Queue)} to begin the search anew.
 	 */
-	private List<LinkedList<String>> startSearchForNextWord(final char[][] grid, final String previouslyDiscoveredWord,
+	private List<GridSolution> startSearchForNextWord(final char[][] grid, final String previouslyDiscoveredWord,
 			final Queue<Integer> newWordLengthsRequired) {
 
-		final List<LinkedList<String>> solutions = new LinkedList<>();
+		final List<GridSolution> solutions = new LinkedList<>();
 
 		// Start searching again in new grid for the next word:
-		final List<LinkedList<String>> nextWords = findWords(grid, newWordLengthsRequired);
+		final List<GridSolution> nextWords = findWords(grid, newWordLengthsRequired);
 
 		// If more words were found, add the whole result to the solution set:
 		if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
-			for (final LinkedList<String> list : nextWords) {
-				list.addFirst(previouslyDiscoveredWord);
+			for (final GridSolution solution : nextWords) {
+				solution.addFirst(previouslyDiscoveredWord);
 			}
 
 			solutions.addAll(nextWords);

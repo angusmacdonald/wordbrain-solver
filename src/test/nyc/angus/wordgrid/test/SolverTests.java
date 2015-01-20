@@ -11,6 +11,7 @@ import java.util.Set;
 
 import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
+import nyc.angus.wordgrid.solver.GridSolution;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 import nyc.angus.wordgrid.ui.Printers;
 
@@ -40,7 +41,7 @@ public class SolverTests {
 	@Test
 	public void nullWordLengths() {
 		final char[][] grid = { { 'c', 'a', }, { 'r', 't' } };
-		final List<LinkedList<String>> solutions = solver.findWords(grid, null);
+		final List<GridSolution> solutions = solver.findWords(grid, null);
 
 		assertEquals(0, solutions.size());
 	}
@@ -48,23 +49,23 @@ public class SolverTests {
 	@Test
 	public void noWordLengths() {
 		final char[][] grid = { { 'c', 'a', }, { 'r', 't' } };
-		final List<LinkedList<String>> solutions = solver.findWords(grid, new LinkedList<>());
+		final List<GridSolution> solutions = solver.findWords(grid, new LinkedList<>());
 		assertEquals(0, solutions.size());
 	}
 
 	@Test
 	public void oneByOneGrid() {
 		final char[][] grid = { { 'a' } };
-		final List<LinkedList<String>> solutions = solver.findWords(grid, setUpWordLengths(1));
+		final List<GridSolution> solutions = solver.findWords(grid, setUpWordLengths(1));
 		assertEquals(0, solutions.size());
 	}
 
 	@Test
 	public void mixedCase() {
 		final char[][] grid = { { 'c', 'a', }, { 'R', 't' } };
-		final List<LinkedList<String>> solutions = solver.findWords(grid, setUpWordLengths(4));
+		final List<GridSolution> solutions = solver.findWords(grid, setUpWordLengths(4));
 		assertEquals(1, solutions.size());
-		assertEquals("cart", solutions.get(0).get(0));
+		assertEquals("cart", solutions.get(0).getWords().get(0));
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class SolverTests {
 
 		final Queue<Integer> wordLengths = setUpWordLengths(3, 4, 6, 3);
 
-		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
+		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
 		Printers.printSolutions(solutions);
 
@@ -86,12 +87,12 @@ public class SolverTests {
 
 		final Queue<Integer> wordLengths = setUpWordLengths(3, 6, 7);
 
-		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
+		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
 		Printers.printSolutions(solutions);
 
 		assertEquals(2, solutions.size());
-		final List<String> solutionSet = solutions.get(0);
+		final GridSolution solutionSet = solutions.get(0);
 
 		assertTrue(solutionSet.contains("jam"));
 		assertTrue(solutionSet.contains("cannon"));
@@ -111,7 +112,7 @@ public class SolverTests {
 
 		final Queue<Integer> wordLengths = setUpWordLengths(4, 7, 5);
 
-		final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
+		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
 		Printers.printSolutions(solutions);
 

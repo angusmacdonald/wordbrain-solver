@@ -4,8 +4,9 @@
 
 package nyc.angus.wordgrid.ui;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import nyc.angus.wordgrid.solver.GridSolution;
 
 import com.google.common.base.Joiner;
 
@@ -14,12 +15,12 @@ import com.google.common.base.Joiner;
  */
 public class Printers {
 
-	public static void printSolutions(final List<LinkedList<String>> wordsFound) {
+	public static void printSolutions(final List<GridSolution> wordsFound) {
 		System.out.print("Solutions found: ");
 
 		if (!wordsFound.isEmpty()) {
-			for (final List<String> result : wordsFound) {
-				System.out.println(Joiner.on(", ").join(result));
+			for (final GridSolution result : wordsFound) {
+				System.out.println(Joiner.on(", ").join(result.getWords()));
 			}
 		} else {
 			System.out.println("<none>");

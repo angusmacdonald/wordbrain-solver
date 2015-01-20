@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nyc.angus.wordgrid.solver.GridSolution;
+
 /**
  * Utility for sorting a list of words (solutions in the word grid) by their frequency in an english corpus.
  */
@@ -23,15 +25,15 @@ public class WordFrequencySorting {
 		this.frequencies = frequencies;
 	}
 
-	public static List<LinkedList<String>> removeDuplicates(final List<LinkedList<String>> solutions) {
-		final List<LinkedList<String>> noDupSolutions = new LinkedList<>();
+	public static List<GridSolution> removeDuplicates(final List<GridSolution> solutions) {
+		final List<GridSolution> noDupSolutions = new LinkedList<>();
 
 		final Set<Integer> seenHashCodes = new HashSet<>();
 
-		for (final LinkedList<String> solution : solutions) {
+		for (final GridSolution solution : solutions) {
 			int hashCode = 0;
 
-			for (final String word : solution) {
+			for (final String word : solution.getWords()) {
 				hashCode += word.hashCode();
 			}
 
@@ -48,21 +50,21 @@ public class WordFrequencySorting {
 	 * Sort the list of solutions by the frequency with which the words in the solutions appear in the frequencies
 	 * provided on initialization of the object.
 	 */
-	public void sortSolutionsByFrequency(final List<LinkedList<String>> solutions) {
+	public void sortSolutionsByFrequency(final List<GridSolution> solutions) {
 
-		final Comparator<LinkedList<String>> c = new Comparator<LinkedList<String>>() {
+		final Comparator<GridSolution> c = new Comparator<GridSolution>() {
 
 			@Override
-			public int compare(final LinkedList<String> o1, final LinkedList<String> o2) {
-				final int o1Rank = rank(o1);
-				final int o2Rank = rank(o2);
+			public int compare(final GridSolution o1, final GridSolution o2) {
+				final int o1Rank = rank(o1.getWords());
+				final int o2Rank = rank(o2.getWords());
 
 				return o1Rank - o2Rank;
 			}
 
 		};
 
-		Collections.<LinkedList<String>> sort(solutions, c);
+		Collections.<GridSolution> sort(solutions, c);
 	}
 
 	/**

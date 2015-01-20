@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.set.SetDictionary;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
+import nyc.angus.wordgrid.solver.GridSolution;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 import nyc.angus.wordgrid.ui.Printers;
 
@@ -60,14 +61,14 @@ public class SolverBenchmarking {
 		LOGGER.log(Level.INFO, "Executing set finder:");
 
 		final Stopwatch setTimer = Stopwatch.createStarted();
-		final List<LinkedList<String>> setSolutions = setSolver.findWords(grid, wordLengths);
+		final List<GridSolution> setSolutions = setSolver.findWords(grid, wordLengths);
 		setTimer.stop();
 
 		LOGGER.log(Level.INFO, setTimer.elapsed(TimeUnit.MILLISECONDS) + "ms to execute set finder.");
 
 		LOGGER.log(Level.INFO, "Executing trie finder:");
 		final Stopwatch trieTimer = Stopwatch.createStarted();
-		final List<LinkedList<String>> trieSolutions = trieSolver.findWords(grid, wordLengths);
+		final List<GridSolution> trieSolutions = trieSolver.findWords(grid, wordLengths);
 		trieTimer.stop();
 
 		LOGGER.log(Level.INFO, trieTimer.elapsed(TimeUnit.MILLISECONDS) + "ms to execute trie finder.");

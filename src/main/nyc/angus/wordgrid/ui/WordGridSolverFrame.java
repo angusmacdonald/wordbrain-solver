@@ -18,6 +18,7 @@ import javax.swing.ScrollPaneConstants;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.frequency.WordFrequencySorting;
+import nyc.angus.wordgrid.solver.GridSolution;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 
 import com.google.common.base.Joiner;
@@ -114,9 +115,9 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 			listModel.addElement("Solving...");
 
 			try {
-				final List<LinkedList<String>> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
+				final List<GridSolution> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
 
-				final List<LinkedList<String>> noDupSolutions = WordFrequencySorting.removeDuplicates(solutions);
+				final List<GridSolution> noDupSolutions = WordFrequencySorting.removeDuplicates(solutions);
 
 				sorter.sortSolutionsByFrequency(noDupSolutions);
 
@@ -134,10 +135,10 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	 * @throws NumberFormatException
 	 *         If the word lengths provided are not numeric.
 	 */
-	private List<LinkedList<String>> findWords(final char[][] grid, final String wordLengthString) throws NumberFormatException {
+	private List<GridSolution> findWords(final char[][] grid, final String wordLengthString) throws NumberFormatException {
 		final Queue<Integer> wordLengths = getWordLengths(wordLengthString);
 
-		final List<LinkedList<String>> wordsFound = wordFinder.findWords(grid, wordLengths);
+		final List<GridSolution> wordsFound = wordFinder.findWords(grid, wordLengths);
 
 		return wordsFound;
 	}
@@ -145,12 +146,12 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	/**
 	 * Display the solutions in the interface.
 	 */
-	private void showSolutions(final List<LinkedList<String>> solutions) {
+	private void showSolutions(final List<GridSolution> solutions) {
 		listModel.clear();
 
 		if (!solutions.isEmpty()) {
-			for (final List<String> result : solutions) {
-				listModel.addElement(Joiner.on(", ").join(result));
+			for (final GridSolution result : solutions) {
+				listModel.addElement(Joiner.on(", ").join(result.getWords()));
 			}
 		} else {
 			listModel.addElement("<none found>");
