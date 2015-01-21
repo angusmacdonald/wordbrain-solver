@@ -47,9 +47,9 @@ First, to create the dictionary, you need to load it from disk into either the `
 	final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);
 ```
 Then, using one of these dictionaries, initialize the solver class:
-
+```java
 	WordGridSolver solver = new WordGridSolver(trieDictionary);
-	
+```	
 To solve a grid, you must provide the grid and a queue of the word lengths required:
 ```java
 	final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
@@ -59,7 +59,7 @@ This call returns a list of of lists, where the inner list is a set of words tha
 #### On The UI ####
 
 To run the program through maven, use the following commands to compile and start:
-```java
+```bash
 	mvn compile 
 	java -Dexec.mainClass="nyc.angus.wordgrid.StartSolverUi"
 ```
