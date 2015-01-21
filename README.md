@@ -52,7 +52,7 @@ Then, using one of these dictionaries, initialize the solver class:
 ```	
 To solve a grid, you must provide the grid and a queue of the word lengths required:
 ```java
-	final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
+	List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
 ```
 This call returns a list of of lists, where the inner list is a set of words that make up a valid solution. This inner list is ordered, so the first entry in the list may be required before the next entry becomes available on the grid. 
 
