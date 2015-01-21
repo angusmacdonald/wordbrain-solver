@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.solver.solution.GridSolution;
-import nyc.angus.wordgrid.solver.solution.Position;
 import nyc.angus.wordgrid.solver.solution.GridWord;
+import nyc.angus.wordgrid.solver.solution.Position;
 
 import com.google.common.base.Preconditions;
 
@@ -174,6 +174,7 @@ public class WordGridSolver {
 		newWordLengthsRequired.remove();
 
 		final Set<Position> finalPositionsInWord = clonePositionsSet(positionsUsedInWord);
+		finalPositionsInWord.add(new Position(xPos, yPos));
 
 		final GridWord word = new GridWord(validWord, finalPositionsInWord, grid);
 
@@ -185,7 +186,7 @@ public class WordGridSolver {
 			// No more words to find after this.
 			solutions.add(solution);
 		} else {
-			final char[][] updatedGrid = removeWordFromGrid(grid, xPos, yPos, finalPositionsInWord);
+			final char[][] updatedGrid = removeWordFromGrid(grid, finalPositionsInWord);
 
 			solutions.addAll(startSearchForNextWord(updatedGrid, word, newWordLengthsRequired));
 		}
@@ -223,13 +224,8 @@ public class WordGridSolver {
 	 * to {@link #startSearchForNextWord(char[][], String, Queue)} can also find valid words and also try to update this
 	 * structure, which leads to an incorrect position being added.
 	 */
-	private char[][] removeWordFromGrid(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord) {
-		// Mark current position as seen:
-		positionsUsedInWord.add(new Position(xPos, yPos));
-
-		// Remove the word found in this search:
-		final char[][] updatedGrid = Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
-		return updatedGrid;
+	private char[][] removeWordFromGrid(final char[][] grid, final Set<Position> positionsUsedInWord) {
+		return Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
 	}
 
 	private Queue<Integer> cloneQueue(final Queue<Integer> wordLengthsRequired) {
