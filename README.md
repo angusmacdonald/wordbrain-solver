@@ -15,7 +15,10 @@ WordBrain provides you with the grid, and the length of each word. It's possible
 1. Presents complete solutions to the entire grid, not just potential solutions for individual words.
 2. Uses a trie to speed up search for valid words through the grid
 3. Uses a word frequency corpus to rank potential solutions
-4. A UI which allows puzzles to be entered and displays the ranked potential solutions.
+4. A UI which:
+	- allows puzzles to be entered
+	- ranks and displays potential solutions
+	- walks through each solution
 
 ### How does this solve it? ###
 
@@ -26,6 +29,8 @@ The solver performs an exhaustive search of the grid. It starts from each charac
 I have included two approaches to implementing the dictionary. There is a simple set implementation that adds all words to a `HashSet` and uses the `contains()` call to determine a given string is a word. There is also a Trie implementation (used by default) that provides an additional `isPrefix()` call, which allows the solver to terminate some searches early (if there are no words that begin with the given prefix).  
 
 Once all potential solutions have been found, they are ranked using a corpus of word frequencies to present the most likely solutions first -- this is important, because the dictionary contains a vast number of unusual words that are unlikely to be in a puzzle.
+
+When a word is found, the grid and the positions in the grid are also recorded so that a word can be highlighted in the grid when a solution is shown.
 
 ### Running the Solver ###
 

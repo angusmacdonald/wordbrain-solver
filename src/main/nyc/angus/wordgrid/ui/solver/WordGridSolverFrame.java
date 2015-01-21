@@ -58,10 +58,7 @@ public class WordGridSolverFrame extends JFrame implements ActionListener, Mouse
 	 */
 	private final WordFrequencySorting sorter;
 
-	public WordGridSolverFrame(final int x, Dictionary dictionary, WordFrequencySorting sorter) {
-		dictionary = null;
-		sorter = null;
-
+	public WordGridSolverFrame(final int x, final Dictionary dictionary, final WordFrequencySorting sorter) {
 		this.sorter = sorter;
 		// Set up frame:
 		final Container pane = getContentPane();
