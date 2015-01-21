@@ -50,7 +50,7 @@ public class SolutionFrame extends JFrame implements MouseListener, ListSelectio
 		lblPuzzle = new JLabel("Puzzle:");
 		getContentPane().add(lblPuzzle, "3, 1");
 
-		lblWordsInSolution = new JLabel("Words in solution:");
+		lblWordsInSolution = new JLabel("Words in solution (select to view):");
 		getContentPane().add(lblWordsInSolution, "5, 1");
 
 		// Initialize grid entry:
