@@ -76,6 +76,15 @@ Finally, when everything has been entered, solutions to the puzzle are shown on 
 
 ![Solutions Displayed](examples/grid-with-solution.png)
 
+Each potential solution can be selected to show where the words in the solution appear:
+
+![First Word Highlighted](examples/solution-word-1.png)
+
+As each word is selected, the grid is updated to remove the characters from the previous grid:
+
+![First Word Highlighted](examples/solution-word-2.png)
+
+
 ### Credits ###
 
 - Word frequencies for the ranker are from [wordfrequency.info](http://www.wordfrequency.info/top5000.asp).

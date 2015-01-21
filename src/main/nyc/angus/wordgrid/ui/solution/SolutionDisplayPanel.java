@@ -81,7 +81,7 @@ public class SolutionDisplayPanel extends JPanel {
 			for (int x = 0; x < characters[0].length; x++) {
 				LOGGER.log(Level.FINER, "Resetting field at (" + x + "," + y + ").");
 				final JTextField field = characters[y][x];
-				field.setText("");
+				field.setText(Character.toString(word.getGrid()[y][x]));
 				field.setBackground(Color.WHITE);
 				field.setForeground(Color.BLACK);
 
@@ -101,11 +101,9 @@ public class SolutionDisplayPanel extends JPanel {
 
 			final JTextField field = characters[pos.y][pos.x];
 
-			field.setText(Character.toString(word.getGrid()[pos.y][pos.x]));
 			field.setBackground(color);
 			field.setForeground(Color.WHITE);
 
 		}
 	}
-
 }
