@@ -1,7 +1,7 @@
 package nyc.angus.wordgrid.solver;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +25,7 @@ public class Grids {
 	 *        The grid positions to remove.
 	 * @return A new grid, with the specified grid positions removed, and gravity applied to the remaining elements.
 	 */
-	public static char[][] removeElementsAndApplyGravity(@Nonnull final char[][] grid, @Nonnull final Set<Position> positionsToRemove) {
+	public static char[][] removeElementsAndApplyGravity(@Nonnull final char[][] grid, @Nonnull final Collection<Position> positionsToRemove) {
 
 		final char[][] newGrid = cloneGrid(grid);
 
@@ -39,7 +39,7 @@ public class Grids {
 	/**
 	 * Clear the specified positions in the grid, replacing the previous character with the ' ' character.
 	 */
-	private static void clearSpecifiedPositions(@Nonnull final char[][] grid, @Nonnull final Set<Position> positionsToRemove) {
+	private static void clearSpecifiedPositions(@Nonnull final char[][] grid, @Nonnull final Collection<Position> positionsToRemove) {
 		for (final Position position : positionsToRemove) {
 			grid[position.y][position.x] = ' ';
 		}

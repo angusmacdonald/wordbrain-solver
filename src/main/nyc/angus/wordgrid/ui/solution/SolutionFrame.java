@@ -36,6 +36,10 @@ public class SolutionFrame extends JFrame implements MouseListener, ListSelectio
 	private final JLabel lblPuzzle;
 	private final JLabel lblWordsInSolution;
 
+	/**
+	 * @param solution
+	 *        The solution to be displayed.
+	 */
 	public SolutionFrame(final GridSolution solution) {
 
 		final Container pane = getContentPane();
@@ -53,18 +57,24 @@ public class SolutionFrame extends JFrame implements MouseListener, ListSelectio
 		lblWordsInSolution = new JLabel("Words in solution (select to view):");
 		getContentPane().add(lblWordsInSolution, "5, 1");
 
-		// Initialize grid entry:
+		// Initialize display to first word:
 		this.gridFrame = new SolutionDisplayPanel(solution.getWords().get(0));
 		pane.add(gridFrame, "3, 3, fill, center");
 
+		/*
+		 * List to show words in the solution.
+		 */
 		lstModelOfWords = new DefaultListModel<>();
 		lstWords = new JList<>(lstModelOfWords);
 		lstWords.addMouseListener(this);
 		lstWords.addListSelectionListener(this);
+		lstWords.requestFocus();
+
 		for (final GridWord word : solution.getWords()) {
 			lstModelOfWords.addElement(word);
 		}
 
+		// Set up a scrollbar for the list of words:
 		final JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportView(lstWords);
 		listScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

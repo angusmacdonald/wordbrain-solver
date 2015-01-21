@@ -1,7 +1,7 @@
 package nyc.angus.wordgrid.solver;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -62,7 +62,7 @@ public class WordGridSolver {
 			for (int x = 0; x < lowerCaseGrid[0].length; x++) {
 
 				// Start with no words seen, and empty string.
-				wordsFound.addAll(findWord(lowerCaseGrid, x, y, "", new HashSet<>(), wordLengths));
+				wordsFound.addAll(findWord(lowerCaseGrid, x, y, "", new LinkedList<>(), wordLengths));
 
 			}
 		}
@@ -96,7 +96,7 @@ public class WordGridSolver {
 	 *         together, complete the grid.
 	 */
 	private List<GridSolution> findWord(final char[][] grid, final int xPos, final int yPos, @Nonnull final String currentWord,
-			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired) {
+			final List<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired) {
 
 		// Check terminating conditions (co-ordinates off grid, grid position already used, or grid position empty):
 		if (notAValidPosition(grid, xPos, yPos, positionsUsedInWord)) {
@@ -122,7 +122,7 @@ public class WordGridSolver {
 	 * position has already been used for the current word, or the grid position does not contain a character (in which
 	 * case the ' ' char is found).
 	 */
-	private boolean notAValidPosition(final char[][] grid, final int xPos, final int yPos, final Set<Position> positionsUsedInWord) {
+	private boolean notAValidPosition(final char[][] grid, final int xPos, final int yPos, final List<Position> positionsUsedInWord) {
 		return xPos < 0 || yPos < 0 || yPos >= grid.length || xPos >= grid[0].length
 				|| positionsUsedInWord.contains(new Position(xPos, yPos)) || grid[yPos][xPos] == ' ';
 	}
@@ -133,9 +133,9 @@ public class WordGridSolver {
 	 * remaining characters adjacent to the current character.
 	 */
 	private List<GridSolution> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,
-			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String word) {
+			final List<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String word) {
 
-		final Set<Position> newPosSeen = clonePositionsSet(positionsUsedInWord);
+		final List<Position> newPosSeen = clonePositionsSet(positionsUsedInWord);
 		newPosSeen.add(new Position(xPos, yPos));
 
 		final List<GridSolution> solutions = new LinkedList<>();
@@ -164,7 +164,7 @@ public class WordGridSolver {
 	 * as it is not part of a complete solution.
 	 */
 	private List<GridSolution> markSolutionAndStartNextWord(final char[][] grid, final int xPos, final int yPos,
-			final Set<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String validWord) {
+			final List<Position> positionsUsedInWord, final Queue<Integer> wordLengthsRequired, final String validWord) {
 		final List<GridSolution> solutions = new LinkedList<>();
 
 		/*
@@ -173,7 +173,7 @@ public class WordGridSolver {
 		final Queue<Integer> newWordLengthsRequired = cloneQueue(wordLengthsRequired);
 		newWordLengthsRequired.remove();
 
-		final Set<Position> finalPositionsInWord = clonePositionsSet(positionsUsedInWord);
+		final List<Position> finalPositionsInWord = clonePositionsSet(positionsUsedInWord);
 		finalPositionsInWord.add(new Position(xPos, yPos));
 
 		final GridWord word = new GridWord(validWord, finalPositionsInWord, grid);
@@ -224,7 +224,7 @@ public class WordGridSolver {
 	 * to {@link #startSearchForNextWord(char[][], String, Queue)} can also find valid words and also try to update this
 	 * structure, which leads to an incorrect position being added.
 	 */
-	private char[][] removeWordFromGrid(final char[][] grid, final Set<Position> positionsUsedInWord) {
+	private char[][] removeWordFromGrid(final char[][] grid, final Collection<Position> positionsUsedInWord) {
 		return Grids.removeElementsAndApplyGravity(grid, positionsUsedInWord);
 	}
 
@@ -232,7 +232,7 @@ public class WordGridSolver {
 		return new LinkedList<>(wordLengthsRequired);
 	}
 
-	private HashSet<Position> clonePositionsSet(final Set<Position> positionsUsedInWord) {
-		return new HashSet<>(positionsUsedInWord);
+	private List<Position> clonePositionsSet(final List<Position> positionsUsedInWord) {
+		return new LinkedList<>(positionsUsedInWord);
 	}
 }

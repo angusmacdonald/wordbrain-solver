@@ -1,6 +1,6 @@
 package nyc.angus.wordgrid.solver.solution;
 
-import java.util.Set;
+import java.util.List;
 
 import com.google.common.base.Objects;
 
@@ -18,14 +18,14 @@ public class GridWord {
 	/**
 	 * Where the word is found in the grid.
 	 */
-	private final Set<Position> positions;
+	private final List<Position> positions;
 
 	/**
 	 * The grid, as it looks when the word
 	 */
 	private final char[][] grid;
 
-	public GridWord(final String word, final Set<Position> positions, final char[][] grid) {
+	public GridWord(final String word, final List<Position> positions, final char[][] grid) {
 		this.positions = positions;
 		this.word = word;
 		this.grid = grid;
@@ -39,7 +39,7 @@ public class GridWord {
 		return grid;
 	}
 
-	public Set<Position> getPositions() {
+	public List<Position> getPositions() {
 		return positions;
 	}
 
