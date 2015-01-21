@@ -2,6 +2,9 @@ package nyc.angus.wordgrid.solver.solution;
 
 import java.util.LinkedList;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+
 /**
  * A solution for a given grid. This is gradually built up, so not all {@link GridSolution} objects are valid solutions.
  */
@@ -54,6 +57,25 @@ public class GridSolution {
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(words);
+	}
+
+	@Override
+	public boolean equals(final Object object) {
+		if (object instanceof Position) {
+			final GridSolution that = (GridSolution) object;
+			return Objects.equal(this.words, that.words);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return Joiner.on(", ").join(words);
 	}
 
 }

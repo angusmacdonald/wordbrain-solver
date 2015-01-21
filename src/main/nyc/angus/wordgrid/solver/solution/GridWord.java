@@ -39,6 +39,10 @@ public class GridWord {
 		return grid;
 	}
 
+	public Set<Position> getPositions() {
+		return positions;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(word, positions);
@@ -55,6 +59,6 @@ public class GridWord {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("word", word).add("positions", positions).toString();
+		return word;
 	}
 }

@@ -1,9 +1,11 @@
-package nyc.angus.wordgrid.ui;
+package nyc.angus.wordgrid.ui.solver;
 
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -20,8 +22,9 @@ import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.frequency.WordFrequencySorting;
 import nyc.angus.wordgrid.solver.WordGridSolver;
 import nyc.angus.wordgrid.solver.solution.GridSolution;
+import nyc.angus.wordgrid.ui.Printers;
+import nyc.angus.wordgrid.ui.solution.SolutionFrame;
 
-import com.google.common.base.Joiner;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -30,7 +33,7 @@ import com.jgoodies.forms.layout.RowSpec;
 /**
  * Frame allowing entry of the characters in the word grid.
  */
-public class WordGridSolverFrame extends JFrame implements ActionListener {
+public class WordGridSolverFrame extends JFrame implements ActionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	/*
@@ -39,8 +42,8 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	private final GridEntryPanel gridFrame;
 	private final JTextField wordLengthEntry;
 	private final Button submitButton;
-	private final JList<String> lstSolutions;
-	private final DefaultListModel<String> listModel;
+	private final JList<GridSolution> lstSolutions;
+	private final DefaultListModel<GridSolution> listModel;
 	private final JLabel lblPuzzle;
 	private final JLabel lblWordLengths;
 	private final JLabel lblPotentialSolutions;
@@ -83,6 +86,8 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 		listModel = new DefaultListModel<>();
 		lstSolutions = new JList<>(listModel);
 
+		lstSolutions.addMouseListener(this);
+
 		final JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportView(lstSolutions);
 		listScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -112,8 +117,6 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource().equals(submitButton)) {
 			listModel.clear();
-			listModel.addElement("Solving...");
-
 			try {
 				final List<GridSolution> solutions = findWords(gridFrame.createGridFromUiForm(), wordLengthEntry.getText());
 
@@ -124,7 +127,6 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 				showSolutions(noDupSolutions);
 			} catch (final NumberFormatException e1) {
 				listModel.clear();
-				listModel.addElement("Input format incorrect...");
 			}
 		}
 	}
@@ -151,10 +153,8 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 
 		if (!solutions.isEmpty()) {
 			for (final GridSolution result : solutions) {
-				listModel.addElement(Joiner.on(", ").join(result.getWords()));
+				listModel.addElement(result);
 			}
-		} else {
-			listModel.addElement("<none found>");
 		}
 
 		Printers.printSolutions(solutions);
@@ -176,5 +176,49 @@ public class WordGridSolverFrame extends JFrame implements ActionListener {
 		}
 
 		return lens;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mouseClicked(final MouseEvent evt) {
+		if (evt.getSource().equals(lstSolutions)) {
+			if (evt.getClickCount() == 2) { // double-click
+				final int index = lstSolutions.locationToIndex(evt.getPoint());
+				final GridSolution solution = lstSolutions.getModel().getElementAt(index);
+
+				final SolutionFrame solutionDisplay = new SolutionFrame(solution);
+				solutionDisplay.setVisible(true);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mousePressed(final MouseEvent e) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mouseReleased(final MouseEvent e) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mouseEntered(final MouseEvent e) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mouseExited(final MouseEvent e) {
 	}
 }

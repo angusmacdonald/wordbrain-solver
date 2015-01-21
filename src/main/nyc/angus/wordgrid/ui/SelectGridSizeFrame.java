@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import nyc.angus.wordgrid.dictionary.Dictionary;
 import nyc.angus.wordgrid.frequency.WordFrequencySorting;
+import nyc.angus.wordgrid.ui.solver.WordGridSolverFrame;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -61,6 +62,7 @@ public class SelectGridSizeFrame extends JFrame implements ActionListener {
 			final Integer gridSize = Integer.parseInt(txtGridSizeField.getText());
 			final WordGridSolverFrame gst = new WordGridSolverFrame(gridSize, dictionary, sorter);
 			gst.setVisible(true);
+			this.setVisible(false);
 		}
 	}
 

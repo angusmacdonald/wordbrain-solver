@@ -1,4 +1,4 @@
-package nyc.angus.wordgrid.ui;
+package nyc.angus.wordgrid.ui.solver;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,7 +38,7 @@ public class GridEntryPanel extends JPanel {
 
 		for (int i = 0; i < gridSize * gridSize; i++) {
 			final JTextField gridField = new JTextField("");
-
+			gridField.setHorizontalAlignment(JTextField.CENTER);
 			setFieldToAutoTabAfterNChars(gridField, 1);
 
 			final GridBagConstraints c = new GridBagConstraints();
