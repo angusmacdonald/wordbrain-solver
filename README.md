@@ -42,26 +42,27 @@ You can see examples of the solver being run in the `SolverTests` class.
 
 First, to create the dictionary, you need to load it from disk into either the `SetDictionary` or the `TrieDictionary`. These are shown below:
 
+```java
 	final SetDictionary setDictionary = new SetDictionary(wordSet);
 	final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);
-   
+```
 Then, using one of these dictionaries, initialize the solver class:
 
 	WordGridSolver solver = new WordGridSolver(trieDictionary);
 	
 To solve a grid, you must provide the grid and a queue of the word lengths required:
-
+```java
 	final List<LinkedList<String>> solutions = solver.findWords(grid, wordLengths);
-
+```
 This call returns a list of of lists, where the inner list is a set of words that make up a valid solution. This inner list is ordered, so the first entry in the list may be required before the next entry becomes available on the grid. 
 
 #### On The UI ####
 
 To run the program through maven, use the following commands to compile and start:
-
-	mvn compile
+```java
+	mvn compile 
 	java -Dexec.mainClass="nyc.angus.wordgrid.StartSolverUi"
-
+```
 Once started you will see the following frame, allowing you to select the size of the grid being played:
 
 ![Grid Size Selection](examples/grid-size.png)
