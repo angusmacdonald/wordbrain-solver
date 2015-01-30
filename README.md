@@ -3,9 +3,10 @@
 This is a toy project I created for solving puzzles in the iOS game, 'WordBrain'.
 
 ### What is WordBrain? ###
-WordBrain is a word search like puzzle, where you are presented with a grid of characters, and you must find the word or words contained within. It differs in two ways:
+WordBrain is a word search like puzzle, where you are presented with a grid of characters, and you must find the word or words contained within. It differs in a number:
+
 1. Characters do not necessarily need to be connected in a straight line. If a character can reach another character diagonally, they can be used to form a word.
-2. Once you have found a word, the characters used to form this word are removed and the remaining characters 'drop down' to fill the void created by the removed characters. This means that for puzzles with multiple words, later words may not become accessible until the first word is found.
+2. Once you have found a word, the characters used to form this word are removed and the remaining characters 'drop down' to fill the void created by the removed characters. This means that for puzzles with multiple words, later words may not become accessible until the first word is found. You know how long each word is, and the order words must be found.
 3. Once all words are found, all characters in the grid must have been used.
  
 WordBrain provides you with the grid, and the length of each word. It's possible to get the right word, but with the wrong characters, meaning you are unable to get later words.
