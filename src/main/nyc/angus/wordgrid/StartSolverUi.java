@@ -19,7 +19,7 @@ public class StartSolverUi {
 	 * Path to the frequencies resource, listing 5000 words and a ranking of their frequency of use in an english
 	 * corpus.
 	 */
-	private static final String NYC_ANGUS_WORDGRID_RESOURCE_FREQUENCIES_CSV = "/nyc/angus/wordgrid/resource/frequencies.csv";
+	private static final String WORD_FREQUENCIES_CSV = "/nyc/angus/wordgrid/resource/frequencies.csv";
 
 	/**
 	 * Path to the dictionary resource, listing english words.
@@ -29,7 +29,7 @@ public class StartSolverUi {
 	public static void main(final String[] args) throws IOException {
 		final TrieDictionary dictionary = TrieDictionary.createTrie(DictionaryLoader.loadDictionary(DICTIONARY_RESOURCE_PATH));
 
-		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies(NYC_ANGUS_WORDGRID_RESOURCE_FREQUENCIES_CSV, 5);
+		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies(WORD_FREQUENCIES_CSV, 5);
 		final WordFrequencySorting sorter = new WordFrequencySorting(frequencies);
 
 		final SelectGridSizeFrame initialFrame = new SelectGridSizeFrame(dictionary, sorter);
