@@ -2,7 +2,7 @@
  * Copyright 2015, Angus Macdonald 
  */
 
-package nyc.angus.wordgrid.test;
+package nyc.angus.wordgrid.util;
 
 import java.util.Random;
 
@@ -32,21 +32,38 @@ public class SyntheticGridBuilder {
 
 			for (int x = 0; x < grid[0].length; x++) {
 
-				/*
-				 * The following code makes it more likely that letters occurring at the start of the letters array will
-				 * be chosen, as two random values are chosen. The first random value is used as the upper limit for
-				 * generating the second value.
-				 */
+				grid[y][x] = pickNextChar(random);
 
-				final int initialValue = random.nextInt(25);
-
-				final int rndval = (initialValue == 0) ? 0 : random.nextInt(initialValue);
-				// 0 isn't a valid input to nextInt
-
-				grid[y][x] = letters[rndval];
 			}
 		}
 
 		return grid;
+	}
+
+	public static String generateRandomPotentialWord(final int wordLength, final Random random) {
+
+		final StringBuilder word = new StringBuilder();
+
+		for (int i = 0; i < wordLength; i++) {
+			word.append(pickNextChar(random));
+		}
+
+		return word.toString();
+	}
+
+	private static char pickNextChar(final Random random) {
+		/*
+		 * The following code makes it more likely that letters occurring at the start of the letters array will be
+		 * chosen, as two random values are chosen. The first random value is used as the upper limit for generating the
+		 * second value.
+		 */
+
+		final int initialValue = random.nextInt(25);
+
+		final int rndval = (initialValue == 0) ? 0 : random.nextInt(initialValue);
+		// 0 isn't a valid input to nextInt
+
+		final char nextChar = letters[rndval];
+		return nextChar;
 	}
 }
