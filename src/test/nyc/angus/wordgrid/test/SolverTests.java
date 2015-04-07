@@ -15,7 +15,7 @@ import nyc.angus.wordgrid.solver.WordGridSolver;
 import nyc.angus.wordgrid.solver.solution.GridSolution;
 import nyc.angus.wordgrid.ui.Printers;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -24,8 +24,8 @@ import org.junit.Test;
 public class SolverTests {
 	private static WordGridSolver solver;
 
-	@BeforeClass
-	public static void initialSetUp() throws IOException {
+	@Before
+	public void setUp() throws IOException {
 		final Set<String> wordSet = DictionaryLoader.loadDictionary("/nyc/angus/wordgrid/resource/dictionary.txt");
 
 		final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);

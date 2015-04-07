@@ -27,7 +27,7 @@ public class DictionaryLoader {
 	 *         If the dictionary could not be loaded, including if the file could not be found.
 	 */
 	public static Set<String> loadDictionary(final String fileLocation) throws IOException {
-		LOGGER.log(Level.INFO, "Reading dictionary...");
+		LOGGER.log(Level.FINE, "Reading dictionary...");
 
 		final InputStream inputStream = DictionaryLoader.class.getResourceAsStream(fileLocation);
 
@@ -44,7 +44,7 @@ public class DictionaryLoader {
 					lines.add(line);
 				}
 
-				LOGGER.log(Level.INFO, "Finished reading dictionary...");
+				LOGGER.log(Level.FINE, "Finished reading dictionary...");
 
 				return lines;
 			}
