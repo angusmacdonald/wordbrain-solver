@@ -11,15 +11,18 @@ import com.google.common.base.Joiner;
  */
 public class Printers {
 
-	public static void printSolutions(final List<GridSolution> wordsFound) {
-		System.out.print("Solutions found: ");
+	public static String solutionToString(final List<GridSolution> wordsFound) {
+
+		final StringBuffer ret = new StringBuffer("Solutions found: ");
 
 		if (!wordsFound.isEmpty()) {
 			for (final GridSolution result : wordsFound) {
-				System.out.println(Joiner.on(", ").join(result.getWords()));
+				ret.append(Joiner.on(", ").join(result.getWords()));
 			}
 		} else {
-			System.out.println("<none>");
+			ret.append("<none>");
 		}
+
+		return ret.toString();
 	}
 }

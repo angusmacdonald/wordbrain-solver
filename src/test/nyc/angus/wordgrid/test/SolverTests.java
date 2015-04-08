@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nyc.angus.wordgrid.dictionary.DictionaryLoader;
 import nyc.angus.wordgrid.dictionary.trie.TrieDictionary;
@@ -23,6 +25,8 @@ import org.junit.Test;
  * Tests of {@link WordGridSolver}.
  */
 public class SolverTests {
+	private final static Logger LOGGER = Logger.getLogger(SolverTests.class.getName());
+
 	private static Set<String> wordSet;
 	private static TrieDictionary trieDictionary;
 
@@ -83,7 +87,7 @@ public class SolverTests {
 
 		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
-		Printers.printSolutions(solutions);
+		LOGGER.log(Level.FINE, Printers.solutionToString(solutions));
 
 		assertTrue(solutions.size() > 0);
 	}
@@ -96,7 +100,7 @@ public class SolverTests {
 
 		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
-		Printers.printSolutions(solutions);
+		LOGGER.log(Level.FINE, Printers.solutionToString(solutions));
 
 		assertEquals(2, solutions.size());
 		final GridSolution solutionSet = solutions.get(0);
@@ -121,7 +125,7 @@ public class SolverTests {
 
 		final List<GridSolution> solutions = solver.findWords(grid, wordLengths);
 
-		Printers.printSolutions(solutions);
+		LOGGER.log(Level.FINE, Printers.solutionToString(solutions));
 
 		assertTrue(solutions.size() > 0);
 	}

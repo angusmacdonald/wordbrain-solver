@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -34,6 +36,8 @@ import com.jgoodies.forms.layout.RowSpec;
  * Frame allowing entry of the characters in the word grid.
  */
 public class WordGridSolverFrame extends JFrame implements ActionListener, MouseListener {
+	private final static Logger LOGGER = Logger.getLogger(WordGridSolverFrame.class.getName());
+
 	private static final long serialVersionUID = 1L;
 
 	/*
@@ -159,7 +163,7 @@ public class WordGridSolverFrame extends JFrame implements ActionListener, Mouse
 			}
 		}
 
-		Printers.printSolutions(solutions);
+		LOGGER.log(Level.FINE, Printers.solutionToString(solutions));
 	}
 
 	/**

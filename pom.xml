@@ -7,6 +7,9 @@
 	<name>WordBrain Solver</name>
 	<description>A solver for WordBrain
 A solver for WordBrain.</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -57,7 +60,7 @@ A solver for WordBrain.</description>
 				</excludes>
 			</resource>
 		</resources>
-		
+
 		<pluginManagement>
 			<plugins>
 				<plugin>

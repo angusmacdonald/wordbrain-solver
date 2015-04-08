@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Utility for loading word frequencies into memory.
  */
@@ -25,6 +27,8 @@ public class WordFrequencyLoader {
 	 *         If the file could not be loaded correctly.
 	 */
 	public static Map<String, Integer> loadWordFrequencies(final String filePath, final int lineWordsStart) throws IOException {
+		Preconditions.checkNotNull(filePath);
+		Preconditions.checkArgument(lineWordsStart >= 0);
 
 		final Map<String, Integer> words = new HashMap<>();
 
@@ -49,7 +53,7 @@ public class WordFrequencyLoader {
 			throw new IOException("Could not create input stream.");
 		}
 
-		LOGGER.log(Level.INFO, "Finished loading " + words.size() + " words.");
+		LOGGER.log(Level.FINE, "Finished loading " + words.size() + " words.");
 
 		return words;
 	}
