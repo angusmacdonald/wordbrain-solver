@@ -131,6 +131,7 @@ A solver for WordBrain.</description>
 				<configuration>
 					<excludes>
 						<exclude>**/ui/**</exclude>
+						<exclude>**/StartSolverUi.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
