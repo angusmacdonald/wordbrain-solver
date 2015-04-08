@@ -3,6 +3,7 @@
 This is a toy project I created for solving puzzles in the iOS game, 'WordBrain'.
 
 [![Build Status](https://travis-ci.org/angusmacdonald/wordbrain-solver.svg?branch=master)](https://travis-ci.org/angusmacdonald/wordbrain-solver)
+[![Coverage Status](https://coveralls.io/repos/angusmacdonald/wordbrain-solver/badge.svg?branch=master)](https://coveralls.io/r/angusmacdonald/wordbrain-solver?branch=master)
 
 ### What is WordBrain? ###
 WordBrain is a word search like puzzle, where you are presented with a grid of characters, and you must find the word or words contained within. It differs in a number:
