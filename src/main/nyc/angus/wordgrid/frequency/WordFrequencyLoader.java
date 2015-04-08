@@ -17,6 +17,10 @@ import com.google.common.base.Preconditions;
 public class WordFrequencyLoader {
 	private final static Logger LOGGER = Logger.getLogger(WordFrequencyLoader.class.getName());
 
+	private WordFrequencyLoader() {
+		// Static methods. Should not be instantiated.
+	}
+
 	/**
 	 * @param filePath
 	 *        Location of the word frequency file.

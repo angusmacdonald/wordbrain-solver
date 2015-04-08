@@ -15,6 +15,10 @@ import java.util.logging.Logger;
 public class DictionaryLoader {
 	private final static Logger LOGGER = Logger.getLogger(DictionaryLoader.class.getName());
 
+	private DictionaryLoader() {
+		// Static methods. Should not be instantiated.
+	}
+
 	/**
 	 * Load the dictionary from the given location into memory.
 	 * <p>

@@ -5,8 +5,12 @@
 package nyc.angus.wordgrid.test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import nyc.angus.wordgrid.frequency.WordFrequencyLoader;
@@ -39,5 +43,14 @@ public class WordFrequencyLoaderTests {
 	public void loadFrequencies() throws IOException {
 		final Map<String, Integer> frequencies = WordFrequencyLoader.loadWordFrequencies(FREQUENCIES_PATH, 5);
 		assertNotNull(frequencies);
+	}
+
+	@Test
+	public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
+			InstantiationException {
+		final Constructor<WordFrequencyLoader> constructor = WordFrequencyLoader.class.getDeclaredConstructor();
+		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+		constructor.setAccessible(true);
+		constructor.newInstance();
 	}
 }
