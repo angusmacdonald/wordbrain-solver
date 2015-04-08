@@ -26,13 +26,6 @@ public class GridSolution {
 	}
 
 	/**
-	 * Are there any words in the grid solution?
-	 */
-	public boolean isEmpty() {
-		return words.isEmpty();
-	}
-
-	/**
 	 * Add a word to the start of the solution set.
 	 */
 	public void addFirst(final GridWord word) {
@@ -66,7 +59,7 @@ public class GridSolution {
 
 	@Override
 	public boolean equals(final Object object) {
-		if (object instanceof Position) {
+		if (object instanceof GridSolution) {
 			final GridSolution that = (GridSolution) object;
 			return Objects.equal(this.words, that.words);
 		}

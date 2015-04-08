@@ -16,19 +16,26 @@ import nyc.angus.wordgrid.solver.solution.GridSolution;
 import nyc.angus.wordgrid.ui.Printers;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Tests of {@link WordGridSolver}.
  */
 public class SolverTests {
-	private static WordGridSolver solver;
+	private static Set<String> wordSet;
+	private static TrieDictionary trieDictionary;
+
+	private WordGridSolver solver;
+
+	@BeforeClass
+	public static void initialSetUp() throws IOException {
+		wordSet = DictionaryLoader.loadDictionary("/nyc/angus/wordgrid/resource/dictionary.txt");
+		trieDictionary = TrieDictionary.createTrie(wordSet);
+	}
 
 	@Before
 	public void setUp() throws IOException {
-		final Set<String> wordSet = DictionaryLoader.loadDictionary("/nyc/angus/wordgrid/resource/dictionary.txt");
-
-		final TrieDictionary trieDictionary = TrieDictionary.createTrie(wordSet);
 
 		solver = new WordGridSolver(trieDictionary);
 	}
@@ -117,6 +124,18 @@ public class SolverTests {
 		Printers.printSolutions(solutions);
 
 		assertTrue(solutions.size() > 0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidGridEmpty() {
+		final char[][] grid = new char[0][0];
+		solver.findWords(grid, new LinkedList<>());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidGridOneEmpty() {
+		final char[][] grid = new char[1][0];
+		solver.findWords(grid, new LinkedList<>());
 	}
 
 	private Queue<Integer> setUpWordLengths(final Integer... lengths) {

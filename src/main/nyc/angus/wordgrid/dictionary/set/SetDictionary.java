@@ -17,6 +17,10 @@ public class SetDictionary implements Dictionary {
 	private final Set<String> dictionary;
 
 	public SetDictionary(final Set<String> dictionary) {
+		if (dictionary == null) {
+			throw new NullPointerException();
+		}
+
 		this.dictionary = dictionary;
 	}
 

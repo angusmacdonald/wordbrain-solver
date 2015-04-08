@@ -14,6 +14,10 @@ import com.google.common.base.Preconditions;
  */
 public class Grids {
 
+	private Grids() {
+		// Class should not be instantiated.
+	}
+
 	/**
 	 * Create a new grid, removing the specified grid elements, and dropping any characters above these elements down,
 	 * so that the only empty (' ') characters are at the top of the grid. The latter operation is termed 'gravity',
@@ -74,22 +78,6 @@ public class Grids {
 	 */
 	private static char[][] cloneGrid(@Nonnull final char[][] original) {
 		return Arrays.stream(original).map((final char[] row) -> row.clone()).toArray((final int length) -> new char[length][]);
-	}
-
-	/**
-	 * Pretty print the contents of a grid to standard out.
-	 * 
-	 * @param grid
-	 *        The grid to be printed.
-	 */
-	public static void printGrid(@Nonnull final char[][] grid) {
-		for (final char[] element : grid) {
-			for (int x = 0; x < grid[0].length; x++) {
-				System.out.print(element[x] + " ");
-			}
-
-			System.out.println("");
-		}
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class WordGridSolver {
 	 */
 	public List<GridSolution> findWords(final char[][] caseSensitiveGrid, final Queue<Integer> wordLengths) {
 		Preconditions.checkNotNull(caseSensitiveGrid);
-		Preconditions.checkArgument(caseSensitiveGrid.length > 0 || caseSensitiveGrid[0].length > 0);
+		Preconditions.checkArgument(caseSensitiveGrid.length > 0 && caseSensitiveGrid[0].length > 0);
 
 		if (wordLengths == null || wordLengths.size() == 0) {
 			return Collections.emptyList();
@@ -180,8 +180,6 @@ public class WordGridSolver {
 
 		final GridSolution solution = new GridSolution(word);
 
-		assert validWord.length() == finalPositionsInWord.size() + 1;
-
 		if (newWordLengthsRequired.isEmpty()) {
 			// No more words to find after this.
 			solutions.add(solution);
@@ -206,7 +204,7 @@ public class WordGridSolver {
 		final List<GridSolution> nextWords = findWords(grid, newWordLengthsRequired);
 
 		// If more words were found, add the whole result to the solution set:
-		if (!nextWords.isEmpty() && !nextWords.get(0).isEmpty()) {
+		if (!nextWords.isEmpty()) {
 			for (final GridSolution solution : nextWords) {
 				solution.addFirst(word);
 			}

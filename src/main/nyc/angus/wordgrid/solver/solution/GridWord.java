@@ -50,7 +50,7 @@ public class GridWord {
 
 	@Override
 	public boolean equals(final Object object) {
-		if (object instanceof Position) {
+		if (object instanceof GridWord) {
 			final GridWord that = (GridWord) object;
 			return Objects.equal(this.word, that.word) && Objects.equal(this.positions, that.positions);
 		}

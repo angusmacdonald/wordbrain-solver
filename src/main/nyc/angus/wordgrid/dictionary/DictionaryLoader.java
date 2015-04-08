@@ -33,23 +33,28 @@ public class DictionaryLoader {
 
 		if (inputStream != null) {
 
-			try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-					BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+			return readLinesFromInputStream(inputStream);
 
-				final Set<String> lines = new HashSet<String>();
-
-				String line;
-
-				while ((line = bufferedReader.readLine()) != null) {
-					lines.add(line);
-				}
-
-				LOGGER.log(Level.FINE, "Finished reading dictionary...");
-
-				return lines;
-			}
 		} else {
 			throw new IOException("Could not create input stream.");
+		}
+	}
+
+	private static Set<String> readLinesFromInputStream(final InputStream inputStream) throws IOException {
+		try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
+			final Set<String> lines = new HashSet<String>();
+
+			String line;
+
+			while ((line = bufferedReader.readLine()) != null) {
+				lines.add(line);
+			}
+
+			LOGGER.log(Level.FINE, "Finished reading dictionary...");
+
+			return lines;
 		}
 	}
 }
