@@ -1,6 +1,5 @@
 language: java
 install:
-  - pip install -r requirements.txt
   - pip install coveralls
 script: mvn test
 after_success: coveralls
