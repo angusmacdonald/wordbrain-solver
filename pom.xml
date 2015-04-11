@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wordbrain</groupId>
 	<artifactId>wordbrain</artifactId>
-	<version>0.9</version>
+	<version>1.0</version>
 	<name>WordBrain Solver</name>
 	<description>A solver for WordBrain
 A solver for WordBrain.</description>
@@ -23,7 +23,6 @@ A solver for WordBrain.</description>
 			<version>2.0.3</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-common</artifactId>
@@ -162,6 +161,7 @@ A solver for WordBrain.</description>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.16</version>
 			</plugin>
+			<!--  Used by TravisCI to publish code coverage results to coveralls.io -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
@@ -169,4 +169,33 @@ A solver for WordBrain.</description>
 			</plugin>
 		</plugins>
 	</build>
+	<!--  Generated with 'mvn site' call, publishes reporting results with JDepend. -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>2.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.18.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
