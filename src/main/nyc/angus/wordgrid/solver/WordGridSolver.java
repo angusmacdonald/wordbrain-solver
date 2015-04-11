@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -129,7 +128,7 @@ public class WordGridSolver {
 
 	/**
 	 * The current word is not large enough, as we haven't reached the desired word size yet. Fan out the search by
-	 * recursively calling {@link #findWord(char[][], int, int, String, Set, Queue)}, adding every combination of
+	 * recursively calling {@link #findWord(char[][], int, int, String, List, Queue)}, adding every combination of
 	 * remaining characters adjacent to the current character.
 	 */
 	private List<GridSolution> findNextCharacterInWord(final char[][] grid, final int xPos, final int yPos,

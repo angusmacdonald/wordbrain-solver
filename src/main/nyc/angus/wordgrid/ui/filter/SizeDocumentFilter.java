@@ -38,18 +38,6 @@ public class SizeDocumentFilter extends DocumentFilter {
 	 *        maximum number of characters to be added to the Document
 	 */
 	public SizeDocumentFilter(final int size) {
-		this(size, null);
-	}
-
-	/**
-	 * Constructor to set the size for this filter as well as provide additional filtering
-	 *
-	 * @param size
-	 *        maximum number of characters to be added to the Document
-	 * @param filter
-	 *        another DocumentFilter to invoke
-	 */
-	public SizeDocumentFilter(final int size, final DocumentFilter filter) {
 		setSize(size);
 	}
 

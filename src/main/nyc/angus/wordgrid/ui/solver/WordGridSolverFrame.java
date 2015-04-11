@@ -189,14 +189,12 @@ public class WordGridSolverFrame extends JFrame implements ActionListener, Mouse
 	 */
 	@Override
 	public void mouseClicked(final MouseEvent evt) {
-		if (evt.getSource().equals(lstSolutions)) {
-			if (evt.getClickCount() == 2) { // double-click
-				final int index = lstSolutions.locationToIndex(evt.getPoint());
-				final GridSolution solution = lstSolutions.getModel().getElementAt(index);
+		if (evt.getSource().equals(lstSolutions) && evt.getClickCount() == 2) { // double-click
+			final int index = lstSolutions.locationToIndex(evt.getPoint());
+			final GridSolution solution = lstSolutions.getModel().getElementAt(index);
 
-				final SolutionFrame solutionDisplay = new SolutionFrame(solution);
-				solutionDisplay.setVisible(true);
-			}
+			final SolutionFrame solutionDisplay = new SolutionFrame(solution);
+			solutionDisplay.setVisible(true);
 		}
 	}
 

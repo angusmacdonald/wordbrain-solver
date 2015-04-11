@@ -53,7 +53,7 @@ public class TrieDictionary implements Dictionary {
 			TrieNode newNext = nextNode.getChild(c);
 
 			if (newNext == null) {
-				newNext = new TrieNode(c, (i == word.length() - 1));
+				newNext = new TrieNode(c, i == word.length() - 1);
 				nextNode.addChild(newNext);
 			} else if (i == word.length() - 1) {
 				newNext.setWord(true);
