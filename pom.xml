@@ -10,6 +10,16 @@ A solver for WordBrain.</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<scm>
+		<url>https://github.com/angusmacdonald/wordbrain-solver/</url>
+		<connection>SSL</connection>
+		<developerConnection>scm:git:https://github.com/angusmacdonald/wordbrain-solver/</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<ciManagement>
+		<url>https://travis-ci.org/angusmacdonald/wordbrain-solver/</url>
+		<system>Travis</system>
+	</ciManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
