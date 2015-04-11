@@ -1,15 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- PROJECT OVERVIEW -->
 	<groupId>nyc.angus</groupId>
 	<artifactId>wordbrain-solver</artifactId>
 	<version>1.0</version>
 	<name>WordBrain Solver</name>
-	<description>A solver for WordBrain
-A solver for WordBrain.</description>
+	<description>A solver for WordBrain.</description>
+	<url>https://github.com/angusmacdonald/wordbrain-solver/</url>
+
+	<!-- PROJECT PROPERTIES -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<!-- SCM and CONTINUOUS INTEGRATION URLS -->
 	<scm>
 		<url>https://github.com/angusmacdonald/wordbrain-solver/</url>
 		<connection>SSL</connection>
@@ -20,6 +26,8 @@ A solver for WordBrain.</description>
 		<url>https://travis-ci.org/angusmacdonald/wordbrain-solver/</url>
 		<system>Travis</system>
 	</ciManagement>
+
+	<!-- LIBRARY DEPENDENCIES -->
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -57,10 +65,12 @@ A solver for WordBrain.</description>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<!-- BUILD DEPENDENCIES -->
 	<build>
+		<!-- SOURCE LOCATIONS -->
 		<sourceDirectory>src/main</sourceDirectory>
 		<testSourceDirectory>src/test</testSourceDirectory>
-
 		<resources>
 			<resource>
 				<directory>src/resource</directory>
@@ -70,6 +80,7 @@ A solver for WordBrain.</description>
 			</resource>
 		</resources>
 
+		<!-- PLUGINS FOR MANAGING PLUGINS -->
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -109,15 +120,16 @@ A solver for WordBrain.</description>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<!-- BUILD PLUGINS -->
 		<plugins>
 			<plugin>
-				<!-- CODE COVERAGE TOOL -->
+				<!-- CODE COVERAGE -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.4.201502262128 </version>
 				<executions>
-					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
-						is passed as VM argument when Maven the Surefire plugin is executed. -->
+					<!-- Prepare execution with Surefire -->
 					<execution>
 						<id>pre-unit-test</id>
 						<goals>
@@ -127,8 +139,7 @@ A solver for WordBrain.</description>
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for unit tests is created 
-						after unit tests have been run. -->
+					<!-- Generate report after tests are run -->
 					<execution>
 						<id>post-unit-test</id>
 						<phase>test</phase>
@@ -137,6 +148,7 @@ A solver for WordBrain.</description>
 						</goals>
 					</execution>
 				</executions>
+				<!-- Specify classes to ignore in code coverage -->
 				<configuration>
 					<excludes>
 						<exclude>**/ui/**</exclude>
@@ -166,12 +178,13 @@ A solver for WordBrain.</description>
 					</execution>
 				</executions>
 			</plugin>
+			<!--  INTEGRATION TEST RUNNER -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.16</version>
 			</plugin>
-			<!--  Used by TravisCI to publish code coverage results to coveralls.io -->
+			<!-- CODE COVERAGE PUBLISHER -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
@@ -179,7 +192,7 @@ A solver for WordBrain.</description>
 			</plugin>
 		</plugins>
 	</build>
-	<!--  Generated with 'mvn site' call, publishes reporting results with JDepend. -->
+	<!-- REPORTING - generated with 'mvn site' call -->
 	<reporting>
 		<plugins>
 			<plugin>
