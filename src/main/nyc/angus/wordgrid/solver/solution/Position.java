@@ -1,5 +1,6 @@
 package nyc.angus.wordgrid.solver.solution;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -30,6 +31,6 @@ public class Position {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("x", x).add("y", y).toString();
+		return MoreObjects.toStringHelper(this).add("x", x).add("y", y).toString();
 	}
 }
