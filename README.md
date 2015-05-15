@@ -5,6 +5,7 @@ This is a toy project I created for solving puzzles in the iOS game, 'WordBrain'
 [![Build Status](https://travis-ci.org/angusmacdonald/wordbrain-solver.svg?branch=master)](https://travis-ci.org/angusmacdonald/wordbrain-solver)
 [![Coverage Status](https://coveralls.io/repos/angusmacdonald/wordbrain-solver/badge.svg?branch=master)](https://coveralls.io/r/angusmacdonald/wordbrain-solver?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/55553cb3774ff21599000167/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55553cb3774ff21599000167)
+![](https://reposs.herokuapp.com/?path=angusmacdonald/wordbrain-solver)
 
 ### What is WordBrain? ###
 WordBrain is a word search like puzzle, where you are presented with a grid of characters, and you must find the word or words contained within. It differs in a number:
